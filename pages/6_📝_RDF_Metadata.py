@@ -29,20 +29,35 @@ This page provides RDF metadata for the EU Export Insights project. You can view
 """)
 
 # Load the RDF graph
-file_path = 'data/ttl/eurostat_data.ttl'
-g = load_rdf_metadata(file_path)
+file_path = 'data/ttl/eurostat_metadata.ttl'  # Change the path to load only metadata
+metadata_graph = load_rdf_metadata(file_path)
 
 # Serialize the graph to Turtle format
-rdf_turtle = g.serialize(format='turtle')
+rdf_metadata_turtle = metadata_graph.serialize(format='turtle').decode('utf-8')
 
-# Display the RDF in the Streamlit App
+# Display the RDF Metadata in the Streamlit App
 st.subheader("RDF Metadata in Turtle Format")
-st.text_area("Turtle Representation", rdf_turtle, height=500)
+st.text_area("Turtle Representation", rdf_metadata_turtle, height=500)
 
 # Provide a download button for the RDF metadata
 st.download_button(
     label="Download RDF Metadata",
-    data=rdf_turtle,
-    file_name='eurostat_data_metadata.ttl',
+    data=rdf_metadata_turtle,
+    file_name='eurostat_metadata.ttl',
+    mime='text/turtle'
+)
+
+# Load the entire RDF dataset graph for download
+file_path_dataset = 'data/ttl/eurostat_data.ttl'
+dataset_graph = load_rdf_metadata(file_path_dataset)
+
+# Serialize the entire dataset to Turtle format
+rdf_dataset_turtle = dataset_graph.serialize(format='turtle').decode('utf-8')
+
+# Provide a download button for the entire RDF dataset
+st.download_button(
+    label="Download Complete Dataset in RDF (TTL)",
+    data=rdf_dataset_turtle,
+    file_name='eurostat_data.ttl',
     mime='text/turtle'
 )

@@ -1,0 +1,22 @@
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix ex: <https://sanctions.streamlit.app/ns#> .
+@prefix wikidata: <http://www.wikidata.org/entity/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ex:catalog a dcat:Catalog ;
+    dct:description "A catalog of datasets representing EU export information."^^xsd:string ;
+    dct:publisher wikidata:Q458 ;
+    dct:title "EU Export Dataset Catalog"^^xsd:string ;
+    dcat:dataset <https://sanctions.streamlit.app/ns#dataset/eurostat_exports> .
+
+<https://sanctions.streamlit.app/ns#dataset/eurostat_exports> a dcat:Dataset ;
+    dct:creator wikidata:Q458 ;
+    dct:description "This dataset contains export data from the European Union to multiple countries, covering 2019-2024."^^xsd:string ;
+    dct:issued "2024-11-17"^^xsd:date ;
+    dct:license <https://creativecommons.org/licenses/by/4.0/> ;
+    dct:spatial wikidata:Q458 ;
+    dct:temporal "2019-01 to 2024-12"^^xsd:string ;
+    dct:title "EU Export Data for Various Countries"^^xsd:string ;
+    dcat:distribution <https://sanctions.streamlit.app/data/ttl/eurostat_data.ttl> .
+

@@ -13,8 +13,11 @@ GR = Namespace("http://purl.org/goodrelations/v1#")
 DCAT = Namespace("http://www.w3.org/ns/dcat#")
 PROV = Namespace("http://www.w3.org/ns/prov#")
 
-# Initialize graph
+# Initialize graphs
 g = Graph()
+metadata_graph = Graph()
+
+# Bind namespaces for both graphs
 g.bind("ex", EX)
 g.bind("qb", QB)
 g.bind("dct", DCTERMS)
@@ -22,6 +25,12 @@ g.bind("wikidata", WIKIDATA)
 g.bind("gr", GR)
 g.bind("dcat", DCAT)
 g.bind("prov", PROV)
+
+metadata_graph.bind("ex", EX)
+metadata_graph.bind("dct", DCTERMS)
+metadata_graph.bind("wikidata", WIKIDATA)
+metadata_graph.bind("dcat", DCAT)
+metadata_graph.bind("prov", PROV)
 
 # Define the folder path where the CSV files are stored
 folder_path = 'data/armenia_export_eurostat'
@@ -81,24 +90,24 @@ def get_country_uri(country_name):
 catalog_uri = EX["catalog"]
 dataset_uri = EX["dataset/eurostat_exports"]
 
-# Add catalog metadata
-g.add((catalog_uri, RDF.type, DCAT.Catalog))
-g.add((catalog_uri, DCTERMS.title, Literal("EU Export Dataset Catalog", datatype=XSD.string)))
-g.add((catalog_uri, DCTERMS.description, Literal("A catalog of datasets representing EU export information.", datatype=XSD.string)))
-g.add((catalog_uri, DCTERMS.publisher, WIKIDATA["Q458"]))  # Assuming EU as publisher
-g.add((catalog_uri, DCAT.dataset, dataset_uri))
+# Add catalog metadata to the metadata graph
+metadata_graph.add((catalog_uri, RDF.type, DCAT.Catalog))
+metadata_graph.add((catalog_uri, DCTERMS.title, Literal("EU Export Dataset Catalog", datatype=XSD.string)))
+metadata_graph.add((catalog_uri, DCTERMS.description, Literal("A catalog of datasets representing EU export information.", datatype=XSD.string)))
+metadata_graph.add((catalog_uri, DCTERMS.publisher, WIKIDATA["Q458"]))  # Assuming EU as publisher
+metadata_graph.add((catalog_uri, DCAT.dataset, dataset_uri))
 
-# Add dataset metadata
-g.add((dataset_uri, RDF.type, DCAT.Dataset))
-g.add((dataset_uri, DCTERMS.title, Literal("EU Export Data for Various Countries", datatype=XSD.string)))
-g.add((dataset_uri, DCTERMS.description, Literal("This dataset contains export data from the European Union to multiple countries, covering 2022-2024.", datatype=XSD.string)))
-g.add((dataset_uri, DCTERMS.creator, WIKIDATA["Q458"]))
-g.add((dataset_uri, DCTERMS.issued, Literal("2024-11-17", datatype=XSD.date)))
-g.add((dataset_uri, DCTERMS.temporal, Literal("2019-01 to 2024-12", datatype=XSD.string)))
-g.add((dataset_uri, DCTERMS.spatial, WIKIDATA["Q458"]))  # Representing the EU
-g.add((dataset_uri, DCAT.distribution, URIRef("https://sanctions.streamlit.app/data/ttl/eurostat_data.ttl")))
+# Add dataset metadata to the metadata graph
+metadata_graph.add((dataset_uri, RDF.type, DCAT.Dataset))
+metadata_graph.add((dataset_uri, DCTERMS.title, Literal("EU Export Data for Various Countries", datatype=XSD.string)))
+metadata_graph.add((dataset_uri, DCTERMS.description, Literal("This dataset contains export data from the European Union to multiple countries, covering 2022-2024.", datatype=XSD.string)))
+metadata_graph.add((dataset_uri, DCTERMS.creator, WIKIDATA["Q458"]))
+metadata_graph.add((dataset_uri, DCTERMS.issued, Literal("2024-11-17", datatype=XSD.date)))
+metadata_graph.add((dataset_uri, DCTERMS.temporal, Literal("2019-01 to 2024-12", datatype=XSD.string)))
+metadata_graph.add((dataset_uri, DCTERMS.spatial, WIKIDATA["Q458"]))  # Representing the EU
+metadata_graph.add((dataset_uri, DCAT.distribution, URIRef("https://sanctions.streamlit.app/data/ttl/eurostat_data.ttl")))
 license_uri = URIRef("https://creativecommons.org/licenses/by/4.0/")
-g.add((dataset_uri, DCTERMS.license, license_uri))
+metadata_graph.add((dataset_uri, DCTERMS.license, license_uri))
 
 # Iterate over rows
 for idx, row in combined_df.iterrows():
@@ -133,8 +142,8 @@ for idx, row in combined_df.iterrows():
     except ValueError:
         print(f"Invalid VALUE_IN_EUR: {row['VALUE_IN_EUR']}")
 
-# Serialize the graph to Turtle format
-print(g.serialize(format='turtle'))
+# Serialize the metadata graph to Turtle format
+metadata_graph.serialize(destination='data/ttl/eurostat_metadata.ttl', format='turtle')
 
-# Save graph to file
+# Serialize the graph with full dataset to Turtle format
 g.serialize(destination='data/ttl/eurostat_data.ttl', format='turtle')
