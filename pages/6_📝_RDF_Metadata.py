@@ -1,11 +1,25 @@
 import streamlit as st
 from rdflib import Graph
 
+st.set_page_config(page_title="RDF Assertion of the Metadata", page_icon="🌍", layout="wide")
+
 # Load RDF metadata
 def load_rdf_metadata(file_path):
     g = Graph()
     g.parse(file_path, format='turtle')
     return g
+
+# Add sidebar
+with st.sidebar:
+    st.markdown('''
+    ### About
+    This project hypothesizes 
+    that Russia is circumventing EU sanctions 
+    by increasing trade through intermediary countries 
+    such as Kyrgyzstan and Armenia, 
+    which is reflected in anomalous trade data patterns post-2022.
+    ''')
+    
 
 # Streamlit App for "RDF Assertion of the Metadata"
 st.title("RDF Assertion of the Metadata")
