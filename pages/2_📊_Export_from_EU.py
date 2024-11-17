@@ -224,8 +224,6 @@ def main():
         visualize_stacked_bar_chart(combined_df_filtered, 'Kazakhstan')
 
     with tab_overall_trends:
-        st.subheader('Overall Export Trends from EU to Russia, Kyrgyzstan, Armenia, Georgia, and Kazakhstan')
-
         # Load and preprocess data for each country
         combined_data = []
         countries = ['Russia', 'Kyrgyzstan', 'Armenia', 'Georgia', 'Kazakhstan']
