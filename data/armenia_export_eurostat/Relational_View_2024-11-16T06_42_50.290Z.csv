@@ -1,0 +1,31 @@
+REPORTER,PARTNER,PRODUCT,FLOW,STAT_PROCEDURE,PERIOD,VALUE_IN_EUR
+"Luxembourg","Armenia","Total","EXPORT","Total","Jun. 2021",1123
+"Ireland (Eire)","Armenia","Total","EXPORT","Total","Jun. 2021",26520
+"Croatia","Armenia","Total","EXPORT","Total","Jun. 2021",28441
+"Cyprus","Armenia","Total","EXPORT","Total","Jun. 2021",55549
+"Estonia","Armenia","Total","EXPORT","Total","Jun. 2021",69215
+"Portugal","Armenia","Total","EXPORT","Total","Jun. 2021",147897
+"Romania","Armenia","Total","EXPORT","Total","Jun. 2021",331734
+"Denmark","Armenia","Total","EXPORT","Total","Jun. 2021",426662
+"Finland","Armenia","Total","EXPORT","Total","Jun. 2021",575714
+"Latvia","Armenia","Total","EXPORT","Total","Jun. 2021",587288
+"Slovenia","Armenia","Total","EXPORT","Total","Jun. 2021",711958
+"Sweden","Armenia","Total","EXPORT","Total","Jun. 2021",829075
+"Greece","Armenia","Total","EXPORT","Total","Jun. 2021",1028814
+"Lithuania","Armenia","Total","EXPORT","Total","Jun. 2021",1309765
+"Austria","Armenia","Total","EXPORT","Total","Jun. 2021",1395895
+"Hungary","Armenia","Total","EXPORT","Total","Jun. 2021",1599826
+"Slovakia","Armenia","Total","EXPORT","Total","Jun. 2021",1934326
+"Spain (incl. Canary Islands 'XB' from 1997)","Armenia","Total","EXPORT","Total","Jun. 2021",1995223
+"Bulgaria","Armenia","Total","EXPORT","Total","Jun. 2021",2232057
+"Czechia","Armenia","Total","EXPORT","Total","Jun. 2021",2477088
+"Belgium (incl. Luxembourg 'LU' -> 1998)","Armenia","Total","EXPORT","Total","Jun. 2021",2550909
+"France (incl. Saint Barthélemy 'BL' -> 2012; incl. French Guiana 'GF', Guadeloupe 'GP', Martinique 'MQ', Réunion 'RE' from 1997; incl. Mayotte 'YT' from 2014)","Armenia","Total","EXPORT","Total","Jun. 2021",2912330
+"Poland","Armenia","Total","EXPORT","Total","Jun. 2021",3243828
+"Netherlands","Armenia","Total","EXPORT","Total","Jun. 2021",5036189
+"Italy (incl. San Marino 'SM' -> 1993)","Armenia","Total","EXPORT","Total","Jun. 2021",11275784
+"Germany (incl. German Democratic Republic 'DD' from 1991)","Armenia","Total","EXPORT","Total","Jun. 2021",14594096
+"Euro area (AT-01/1999, BE-01/1999, CY-01/2008, DE-01/1999, EE-01/2011, ES-01/1999, FI-01/1999, FR-01/1999, GR-01/2001, HR-01/2023, IE-01/1999, IT-01/1999, LT-01/2015, LU-01/1999, LV-01/2014, MT-01/2008, NL-01/1999, PT-01/1999, SI-01/2007, SK-01/2009)","Armenia","Total","EXPORT","Total","Jun. 2021",46208595
+"Euro area - 20 countries (AT, BE, CY, DE, EE, ES, FI, FR, GR, HR, IE, IT, LT, LU, LV, MT, NL, PT, SI, SK)","Armenia","Total","EXPORT","Total","Jun. 2021",46237036
+"European Union (AT-01/1995, BE-01/1958, BG-01/2007, CY-05/2004, CZ-05/2004, DE-01/1958, DK-01/1973, EE-05/2004, ES-01/1986, FI-01/1995, FR-01/1958, GB-01/1973->01/2020, GR-01/1981, HR-07/2013, HU-05/2004, IE-01/1973, IT-01/1958, LT-05/2004, LU-01/1958, LV-05/2004, MT-05/2004, NL-01/1958, PL-05/2004, PT-01/1986, RO-01/2007, SE-01/1995, SI-05/2004, SK-05/2004)","Armenia","Total","EXPORT","Total","Jun. 2021",57377306
+"European Union - 27 countries (AT, BE, BG, CY, CZ, DE, DK, EE, ES, FI, FR, GR, HR, HU, IE, IT, LT, LU, LV, MT, NL, PL, PT, RO, SE, SI, SK)","Armenia","Total","EXPORT","Total","Jun. 2021",57377306

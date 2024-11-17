@@ -45,7 +45,7 @@ Since Russia's invasion of Ukraine in February 2022, the European Union, alongsi
 
 One particular method involved redirecting the flow of imports and exports through intermediaries, countries that are geographically close to and economically tied with Russia. Countries like Kyrgyzstan, Armenia, and others have seen noticeable shifts in their trade activities since 2022, which led to concerns that they might be facilitating Russia's sanction evasion.
 
-This project was inspired by a series of posts from Robert Brooks on Twitter, where he highlighted the unusual growth of exports from EU countries to these regions, notably Kyrgyzstan and Armenia. Brooks' observations raised important questions: Is there indeed a significant growth in import and export activities involving these countries? And if so, how does this trade align with official data sources, including Eurostat and local data from Kyrgyzstan and Russia? To illustrate the growth highlighted by Brooks, we have included screenshots from his Twitter posts, which vividly depict the spikes in trade activities involving these intermediary countries.
+This project was inspired by a series of posts from [Robert Brooks on Twitter](https://x.com/robin_j_brooks), where he highlighted the unusual growth of exports from EU countries to these regions, notably Kyrgyzstan and Armenia. Brooks' observations raised important questions: Is there indeed a significant growth in import and export activities involving these countries? And if so, how does this trade align with official data sources, including Eurostat and local data from Kyrgyzstan and Russia?
          ''')
 
 # Placeholder for images from Twitter

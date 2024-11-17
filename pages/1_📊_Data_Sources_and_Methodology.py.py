@@ -35,44 +35,48 @@ with tab1:
     of trade patterns:
     
     1. **Eurostat**
-       - Description of the data
-       - Time period covered
-       - Variables included
-       
+       - International trade in goods (ITG) statistics measure the value and quantity of goods traded between the EU countries (intra-EU trade) and goods traded by EU countries with non-EU countries (extra-EU trade). The term ‘goods’ refers to all movable property.
+       - These are the official, harmonised source of information about exports, imports, and trade balances of the EU, its members, and the euro area.
+       - The statistics are compiled based on concepts and definitions set out in EU legislation to ensure consistency and reliability.
+       - **Time period covered**: 2019 - 2024
+       - **Variables included**: Export value, Import value, Country of origin/destination, Product categories.
+
     2. **Kyrgyzstan Statistics**
-       - Description of the data
-       - Time period covered
-       - Variables included
+       - The [import](https://data.gov.kg/dataset/nmnopt-tobapob) and [export](https://data.gov.kg/dataset/ekcnopt-tobapob/resource/d66a2b70-ceb6-4793-bd17-b20f805f9275) datasets provide detailed insights into Kyrgyzstan's trade activities.
+       - **Time period covered**: 2016 - 2023
+       - **Variables included**:
+         - Sectoral breakdown of imports and exports (e.g., agriculture, mining, manufacturing, services).
+         - Yearly trade values in thousand USD.
+       - **Import Data**:
+         - Last updated: 4 October 2024
+         - Created: 4 October 2024
+         - Format: XLSX (Microsoft Excel Spreadsheet)
+         - Size: 16 KiB
+         - License: Creative Commons Attribution
+       - **Export Data**:
+         - Last updated: 4 October 2024
+         - Created: 2 March 2024
+         - Format: XLSX (Microsoft Excel Spreadsheet)
+         - Size: 13.9 KiB
+         - License: Creative Commons Attribution
        
     3. **Russian Trade Data**
-       - Description of the data
-       - Time period covered
-       - Variables included
+       - Limited data is available from Russian sources, given that much of the trade data has been restricted since the war began.
+       - **Time period covered**: 2019 - 2022 (limited availability)
+       - **Variables included**: Export/Import value, Trade partners, Product categories.
     ''')
-    
+
     # Add example data preview
     if st.checkbox('Show Data Preview'):
-        df = pd.read_csv('your_data.csv')  # Replace with your actual data
+        # Example dataset from Eurostat
+        data = {
+            'REPORTER': ["Luxembourg", "Cyprus", "Greece", "Portugal", "Romania"],
+            'PARTNER': ["Russian Federation (Russia)"] * 5,
+            'PRODUCT': ["Total"] * 5,
+            'FLOW': ["EXPORT"] * 5,
+            'STAT_PROCEDURE': ["Total"] * 5,
+            'PERIOD': ["Aug. 2024"] * 5,
+            'VALUE_IN_EUR': [162950, 179808, 6715293, 7379470, 11732919]
+        }
+        df = pd.DataFrame(data)
         st.dataframe(df.head())
-
-with tab2:
-    st.header('Methodology')
-    st.write('''
-    Our analysis follows these key steps:
-    
-    1. Data Collection
-    2. Data Cleaning
-    3. Statistical Analysis
-    4. Visualization
-    ''')
-    # Add more methodology details
-
-with tab3:
-    st.header('Limitations and Assumptions')
-    st.write('''
-    It's important to note the following limitations:
-    
-    1. Data availability
-    2. Reporting discrepancies
-    3. Time lag in reporting
-    ''')
