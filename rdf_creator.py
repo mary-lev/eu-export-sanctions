@@ -97,6 +97,8 @@ g.add((dataset_uri, DCTERMS.issued, Literal("2024-11-17", datatype=XSD.date)))
 g.add((dataset_uri, DCTERMS.temporal, Literal("2019-01 to 2024-12", datatype=XSD.string)))
 g.add((dataset_uri, DCTERMS.spatial, WIKIDATA["Q458"]))  # Representing the EU
 g.add((dataset_uri, DCAT.distribution, URIRef("https://sanctions.streamlit.app/data/ttl/eurostat_data.ttl")))
+license_uri = URIRef("https://creativecommons.org/licenses/by/4.0/")
+g.add((dataset_uri, DCTERMS.license, license_uri))
 
 # Iterate over rows
 for idx, row in combined_df.iterrows():
