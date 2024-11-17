@@ -1,0 +1,22 @@
+# Streamlit Configuration File
+[general]
+# Set the new main entry point for your app.
+# Replace 'Home.py' with the actual filename of your new main script.
+script_file = "Home.py"
+
+
+[theme]
+primaryColor = "#6c757d"
+backgroundColor = "#ffffff"
+secondaryBackgroundColor = "#f0f0f5"
+textColor = "#000000"
+font = "sans serif"
+
+[server]
+headless = true
+enableCORS = false
+
+[header]
+page_title = "Introduction"
+page_icon = ":earth_americas:"
+layout = "wide"
