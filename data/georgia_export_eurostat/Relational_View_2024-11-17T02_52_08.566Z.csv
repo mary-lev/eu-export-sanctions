@@ -1,0 +1,32 @@
+REPORTER,PARTNER,PRODUCT,FLOW,STAT_PROCEDURE,PERIOD,VALUE_IN_EUR
+"Malta","Georgia","Total","EXPORT","Total","May. 2021",55
+"Cyprus","Georgia","Total","EXPORT","Total","May. 2021",45787
+"Luxembourg","Georgia","Total","EXPORT","Total","May. 2021",157337
+"Estonia","Georgia","Total","EXPORT","Total","May. 2021",375680
+"Croatia","Georgia","Total","EXPORT","Total","May. 2021",513858
+"Ireland (Eire)","Georgia","Total","EXPORT","Total","May. 2021",540568
+"Slovakia","Georgia","Total","EXPORT","Total","May. 2021",709465
+"Denmark","Georgia","Total","EXPORT","Total","May. 2021",745624
+"Portugal","Georgia","Total","EXPORT","Total","May. 2021",757298
+"Sweden","Georgia","Total","EXPORT","Total","May. 2021",1598118
+"Greece","Georgia","Total","EXPORT","Total","May. 2021",1621787
+"Finland","Georgia","Total","EXPORT","Total","May. 2021",1809225
+"Slovenia","Georgia","Total","EXPORT","Total","May. 2021",2143915
+"Austria","Georgia","Total","EXPORT","Total","May. 2021",2357754
+"Latvia","Georgia","Total","EXPORT","Total","May. 2021",2442519
+"Lithuania","Georgia","Total","EXPORT","Total","May. 2021",3974893
+"Hungary","Georgia","Total","EXPORT","Total","May. 2021",4197826
+"Belgium (incl. Luxembourg 'LU' -> 1998)","Georgia","Total","EXPORT","Total","May. 2021",5144574
+"Spain (incl. Canary Islands 'XB' from 1997)","Georgia","Total","EXPORT","Total","May. 2021",5950187
+"Czechia","Georgia","Total","EXPORT","Total","May. 2021",6099444
+"Netherlands","Georgia","Total","EXPORT","Total","May. 2021",7719621
+"Poland","Georgia","Total","EXPORT","Total","May. 2021",8530372
+"Bulgaria","Georgia","Total","EXPORT","Total","May. 2021",10291690
+"France (incl. Saint Barthélemy 'BL' -> 2012; incl. French Guiana 'GF', Guadeloupe 'GP', Martinique 'MQ', Réunion 'RE' from 1997; incl. Mayotte 'YT' from 2014)","Georgia","Total","EXPORT","Total","May. 2021",13811994
+"Romania","Georgia","Total","EXPORT","Total","May. 2021",14424587
+"Italy (incl. San Marino 'SM' -> 1993)","Georgia","Total","EXPORT","Total","May. 2021",16300406
+"Germany (incl. German Democratic Republic 'DD' from 1991)","Georgia","Total","EXPORT","Total","May. 2021",24510017
+"Euro area (AT-01/1999, BE-01/1999, CY-01/2008, DE-01/1999, EE-01/2011, ES-01/1999, FI-01/1999, FR-01/1999, GR-01/2001, HR-01/2023, IE-01/1999, IT-01/1999, LT-01/2015, LU-01/1999, LV-01/2014, MT-01/2008, NL-01/1999, PT-01/1999, SI-01/2007, SK-01/2009)","Georgia","Total","EXPORT","Total","May. 2021",90373082
+"Euro area - 20 countries (AT, BE, CY, DE, EE, ES, FI, FR, GR, HR, IE, IT, LT, LU, LV, MT, NL, PT, SI, SK)","Georgia","Total","EXPORT","Total","May. 2021",90886940
+"European Union (AT-01/1995, BE-01/1958, BG-01/2007, CY-05/2004, CZ-05/2004, DE-01/1958, DK-01/1973, EE-05/2004, ES-01/1986, FI-01/1995, FR-01/1958, GB-01/1973->01/2020, GR-01/1981, HR-07/2013, HU-05/2004, IE-01/1973, IT-01/1958, LT-05/2004, LU-01/1958, LV-05/2004, MT-05/2004, NL-01/1958, PL-05/2004, PT-01/1986, RO-01/2007, SE-01/1995, SI-05/2004, SK-05/2004)","Georgia","Total","EXPORT","Total","May. 2021",136774601
+"European Union - 27 countries (AT, BE, BG, CY, CZ, DE, DK, EE, ES, FI, FR, GR, HR, HU, IE, IT, LT, LU, LV, MT, NL, PL, PT, RO, SE, SI, SK)","Georgia","Total","EXPORT","Total","May. 2021",136774601

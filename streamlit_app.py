@@ -9,7 +9,7 @@ st.set_page_config(
 
 # Add sidebar
 with st.sidebar:
-    st.title('Navigation')
+    st.title('Introduction to the Project')
     st.write('You are currently on: Home Page')
     
     # Optional: Add any global filters or controls
