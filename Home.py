@@ -9,23 +9,23 @@ st.set_page_config(
 
 # Add sidebar
 with st.sidebar:
-    st.title('Introduction to the Project')
-    st.write('You are currently on: Home Page')
+    # st.title('Introduction to the Project')
+    # st.write('You are currently on: Home Page')
     
-    # Optional: Add any global filters or controls
-    st.subheader('Global Filters')
-    time_period = st.select_slider(
-        'Select Time Period',
-        options=['2020', '2021', '2022', '2023', '2024'],
-        value=('2020', '2024')
-    )
+    # # Optional: Add any global filters or controls
+    # st.subheader('Global Filters')
+    # time_period = st.select_slider(
+    #     'Select Time Period',
+    #     options=['2020', '2021', '2022', '2023', '2024'],
+    #     value=('2020', '2024')
+    # )
     
-    # Optional: Add other controls
-    st.subheader('Data Options')
-    show_raw_data = st.checkbox('Show Raw Data Tables', value=False)
+    # # Optional: Add other controls
+    # st.subheader('Data Options')
+    # show_raw_data = st.checkbox('Show Raw Data Tables', value=False)
     
-    # Optional: Add some useful information
-    st.markdown('---')  # Adds a horizontal line
+    # # Optional: Add some useful information
+    # st.markdown('---')  # Adds a horizontal line
     st.markdown('''
     ### About
     This project analyzes trade patterns 
