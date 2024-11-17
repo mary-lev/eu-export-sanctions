@@ -100,7 +100,7 @@ metadata_graph.add((catalog_uri, DCAT.dataset, dataset_uri))
 # Add dataset metadata to the metadata graph
 metadata_graph.add((dataset_uri, RDF.type, DCAT.Dataset))
 metadata_graph.add((dataset_uri, DCTERMS.title, Literal("EU Export Data for Various Countries", datatype=XSD.string)))
-metadata_graph.add((dataset_uri, DCTERMS.description, Literal("This dataset contains export data from the European Union to multiple countries, covering 2022-2024.", datatype=XSD.string)))
+metadata_graph.add((dataset_uri, DCTERMS.description, Literal("This dataset contains export data from the European Union to multiple countries, covering 2019-2024.", datatype=XSD.string)))
 metadata_graph.add((dataset_uri, DCTERMS.creator, WIKIDATA["Q458"]))
 metadata_graph.add((dataset_uri, DCTERMS.issued, Literal("2024-11-17", datatype=XSD.date)))
 metadata_graph.add((dataset_uri, DCTERMS.temporal, Literal("2019-01 to 2024-12", datatype=XSD.string)))
