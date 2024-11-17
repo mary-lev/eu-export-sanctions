@@ -12,33 +12,13 @@ st.set_page_config(
 )
 
 with st.sidebar:
-    st.title('Navigation')
-    st.write('You are currently on: Home Page')
-    
-    # Optional: Add any global filters or controls
-    st.subheader('Global Filters')
-    time_period = st.select_slider(
-        'Select Time Period',
-        options=['2020', '2021', '2022', '2023', '2024'],
-        value=('2020', '2024')
-    )
-    
-    # Optional: Add other controls
-    st.subheader('Data Options')
-    show_raw_data = st.checkbox('Show Raw Data Tables', value=False)
-    
-    # Optional: Add some useful information
-    st.markdown('---')  # Adds a horizontal line
     st.markdown('''
     ### About
-    This project analyzes trade patterns 
-    between EU and intermediary countries 
-    after Russia's invasion of Ukraine.
-    
-    ### Data Sources
-    - Eurostat
-    - Kyrgyzstan Statistics
-    - Russian Trade Data
+    This project hypothesizes 
+    that Russia is circumventing EU sanctions 
+    by increasing trade through intermediary countries 
+    such as Kyrgyzstan and Armenia, 
+    which is reflected in anomalous trade data patterns post-2022.
     ''')
 
 # Helper function to load Kyrgyzstan state statistics data from Excel
