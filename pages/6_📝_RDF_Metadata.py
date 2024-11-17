@@ -33,7 +33,7 @@ file_path = 'data/ttl/eurostat_metadata.ttl'  # Change the path to load only met
 metadata_graph = load_rdf_metadata(file_path)
 
 # Serialize the graph to Turtle format
-rdf_metadata_turtle = metadata_graph.serialize(format='turtle').decode('utf-8')
+rdf_metadata_turtle = metadata_graph.serialize(format='turtle')
 
 # Display the RDF Metadata in the Streamlit App
 st.subheader("RDF Metadata in Turtle Format")
@@ -52,7 +52,7 @@ file_path_dataset = 'data/ttl/eurostat_data.ttl'
 dataset_graph = load_rdf_metadata(file_path_dataset)
 
 # Serialize the entire dataset to Turtle format
-rdf_dataset_turtle = dataset_graph.serialize(format='turtle').decode('utf-8')
+rdf_dataset_turtle = dataset_graph.serialize(format='turtle')
 
 # Provide a download button for the entire RDF dataset
 st.download_button(
