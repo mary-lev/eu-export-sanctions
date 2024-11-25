@@ -55,7 +55,7 @@ def preprocess_data(data):
     combined_df_filtered = data[['REPORTER', 'PERIOD', 'VALUE_IN_EUR']]
     
     # Remove rows where 'REPORTER' contains 'Euro area' or 'European Union'
-    combined_df_filtered = combined_df_filtered[~combined_df_filtered['REPORTER'].str.contains('Euro area|European Union')]
+    combined_df_filtered = combined_df_filtered[~combined_df_filtered['REPORTER'].str.contains('Euro area|European Union|Union européenne|Zone euro')]
     
     # Keep only the first word of the 'REPORTER' column
     combined_df_filtered['REPORTER'] = combined_df_filtered['REPORTER'].str.split().str[0]
@@ -113,16 +113,18 @@ def main():
     data_kyrgyzstan = load_data('data/kyrgyz_export_eurostat')
     data_armenia = load_data('data/armenia_export_eurostat')
     data_georgia = load_data('data/georgia_export_eurostat')
+    data_uzbekistan = load_data('data/uzbekistan_export_eurostat')
 
     kyrgyzstan_state_stats = load_state_statistics_data('data/kyrgyzstan_data/4.03.00.20 Географическое распределение импорта товаров..xlsx')
 
     # Create tabs for each country
-    tab_russia, tab_kyrgyzstan, tab_armenia, tab_georgia, tab_kazakhstan, tab_overall_trends = st.tabs([
+    tab_russia, tab_kyrgyzstan, tab_armenia, tab_georgia, tab_kazakhstan, tab_uzbekistan, tab_overall_trends = st.tabs([
         'Russia',
         'Kyrgyzstan',
         'Armenia',
         'Georgia',
         'Kazakhstan',
+        'Uzbekistan',
         'Overall Trends'])
 
     with tab_russia:
@@ -203,12 +205,16 @@ def main():
         combined_df_filtered = preprocess_data_kazakhstan(data_kazakhstan)
         visualize_stacked_bar_chart(combined_df_filtered, 'Kazakhstan')
 
+    with tab_uzbekistan:
+        combined_df_filtered = preprocess_data(data_uzbekistan)
+        visualize_stacked_bar_chart(combined_df_filtered, 'Uzbekistan')
+
     with tab_overall_trends:
         # Load and preprocess data for each country
         combined_data = []
-        countries = ['Russia', 'Kyrgyzstan', 'Armenia', 'Georgia', 'Kazakhstan']
-        data_files = [data_russia, data_kyrgyzstan, data_armenia, data_georgia, data_kazakhstan]
-        preprocess_funcs = [preprocess_data, preprocess_data, preprocess_data, preprocess_data, preprocess_data_kazakhstan]
+        countries = ['Russia', 'Kyrgyzstan', 'Armenia', 'Georgia', 'Kazakhstan', 'Uzbekistan']
+        data_files = [data_russia, data_kyrgyzstan, data_armenia, data_georgia, data_kazakhstan, data_uzbekistan]
+        preprocess_funcs = [preprocess_data, preprocess_data, preprocess_data, preprocess_data, preprocess_data_kazakhstan, preprocess_data]
 
         for country, data, preprocess in zip(countries, data_files, preprocess_funcs):
             preprocessed_data = preprocess(data)
@@ -225,7 +231,7 @@ def main():
             x='Month',
             y='Export Value',
             color='Country',
-            title='Overall Export Trends from EU to Russia, Kyrgyzstan, Armenia, Georgia, and Kazakhstan (2019 - 2024)',
+            title='Overall Export Trends from EU to Russia, Kyrgyzstan, Armenia, Georgia, Uzbekistan, and Kazakhstan (2019 - 2024)',
             labels={'Month': 'Month', 'Export Value': 'Export Value (EUR)', 'Country': 'Country'}
         )
         fig.update_layout(barmode='stack')

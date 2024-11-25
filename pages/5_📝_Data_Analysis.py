@@ -5,7 +5,7 @@ import os
 import numpy as np
 import plotly.express as px
 
-st.set_page_config(page_title="Data Analysis", page_icon="🌍", layout="wide")
+st.set_page_config(page_title="Detecting Anomalies", page_icon="🌍", layout="wide")
 
 # Add sidebar
 with st.sidebar:
@@ -30,13 +30,12 @@ We began by collecting extensive EU export data for all partner countries from *
          This rich dataset allowed us to **track long-term trends** in export volumes; **establish historical baselines** 
          for each country's trade activity and **detect deviations** that may signal significant shifts in trade relationships.
 
-> NB. For 2016, the dataset contains different names for some countries: for example, Uzbekistan is called 'Ouzbékistan', Kyrgyzstan is called 'Kirghizistan', Armenia is called 'Arménie', and this has caused some problems in data processing,  so we need to rename these countries to their correct names in order to be consistent with data from other years.
+> NB. For 2016, the dataset contains different names for some countries: for example, Uzbekistan is called 'Uzbekistan', Kyrgyzstan is called 'Kirghizistan', Armenia is called 'Arménie', and this has caused some problems in data processing,  so we need to rename these countries to their correct names in order to be consistent with data from other years.
 
 #### **2. Data Analysis**
 
 **1. Calculating Year-over-Year Growth Rates**. For each country, we computed the annual growth rates in export values. 
          This provided a clear picture of how trade volumes fluctuated year by year. 
-**Example:** Armenia's exports showed modest changes until a sharp increase was observed in 2022.
 
 **2. Detecting Historical Baselines**. The average growth rate and standard deviation for each country were calculated from 2010 to 2021. This historical baseline enabled the identification of the typical variability in trade patterns for each partner.
 
