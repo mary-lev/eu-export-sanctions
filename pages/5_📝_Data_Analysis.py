@@ -96,6 +96,8 @@ pivot_data = data.pivot_table(
     index='PARTNER', columns='YEAR', values='VALUE_IN_EUR', aggfunc='sum'
 ).fillna(0)
 
+pivot_data.columns = pivot_data.columns.astype(int)
+
 # Step 4: Calculate year-over-year growth percentages
 for year in range(2010, 2023):  # Adjust range based on your data
     if year + 1 in pivot_data.columns:
