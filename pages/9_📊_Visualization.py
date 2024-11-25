@@ -225,37 +225,6 @@ def main():
         combined_df_filtered = preprocess_data(data_armenia)
         visualize_stacked_bar_chart(combined_df_filtered, 'Armenia')
 
-        file_path = 'data/armenia_data/armenia_data.csv'  # Replace with your file path
-        data = pd.read_csv(file_path)
-        data['timeperiod'] = pd.to_datetime(
-            data['timeperiod'], format='%m', errors='coerce').dt.strftime('%B')
-        # Select and rename relevant columns
-        data_cleaned = data[['country', 'timeperiod', 'year', 'import_consigment']].rename(
-            columns={
-                'country': 'Reporter',
-                'timeperiod': 'Month',
-                'year': 'Year',
-                'import_consigment': 'Import Value'
-            }
-        )
-        # Convert 'Import Value' to numeric, handling missing or invalid values
-        data_cleaned['Import Value'] = pd.to_numeric(
-            data_cleaned['Import Value'], errors='coerce')
-        grouped_data = data_cleaned.groupby(
-            ['Reporter', 'Month', 'Year'], as_index=False)['Import Value'].sum()
-        line_chart_data = grouped_data.groupby(['Year', 'Reporter'], as_index=False)['Import Value'].sum()
-
-        fig = px.line(
-            line_chart_data,
-            x='Year',
-            y='Import Value',
-            color='Reporter',
-            title='Total Imports to Armenia by Reporting Country',
-            labels={'Year': 'Year', 'Import Value': 'Value in Numeric Units', 'Reporter': 'Country'},
-        )
-
-        st.plotly_chart(fig, use_container_width=True)
-
     with tab_georgia:
         combined_df_filtered = preprocess_data(data_georgia)
         visualize_stacked_bar_chart(combined_df_filtered, 'Georgia')
