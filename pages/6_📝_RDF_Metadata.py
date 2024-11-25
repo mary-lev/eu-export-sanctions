@@ -61,3 +61,30 @@ st.download_button(
     file_name='eurostat_data.ttl',
     mime='text/turtle'
 )
+
+# Serialize metadata graph to JSON-LD format
+rdf_metadata_jsonld = metadata_graph.serialize(format='json-ld')
+
+# Provide a download button for RDF metadata in JSON-LD format
+st.download_button(
+    label="Download RDF Metadata (JSON-LD)",
+    data=rdf_metadata_jsonld,
+    file_name='eurostat_metadata.json',
+    mime='application/ld+json'
+)
+
+# Serialize the entire dataset graph to JSON-LD format
+rdf_dataset_jsonld = dataset_graph.serialize(format='json-ld')
+
+# Provide a download button for the entire RDF dataset in JSON-LD format
+st.download_button(
+    label="Download Complete Dataset in RDF (JSON-LD)",
+    data=rdf_dataset_jsonld,
+    file_name='eurostat_data.json',
+    mime='application/ld+json'
+)
+
+
+st.write("Dataset and metadata were validated using the [DCAT-AP validator] (https://www.itb.ec.europa.eu/shacl/dcat-ap/upload).")
+st.image("images/validation.png", caption="DCAT-AP Dataset Validation Results", width=600)
+st.image("images/metadata_validation.png", caption="DCAT-AP Metadata Validation Report", width=600)

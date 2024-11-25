@@ -12,6 +12,8 @@ WIKIDATA = Namespace("http://www.wikidata.org/entity/")
 GR = Namespace("http://purl.org/goodrelations/v1#")
 DCAT = Namespace("http://www.w3.org/ns/dcat#")
 PROV = Namespace("http://www.w3.org/ns/prov#")
+SCHEMA = Namespace("http://schema.org/")
+FOAF = Namespace("http://xmlns.com/foaf/0.1/")
 
 # Initialize graphs
 g = Graph()
@@ -31,6 +33,8 @@ metadata_graph.bind("dct", DCTERMS)
 metadata_graph.bind("wikidata", WIKIDATA)
 metadata_graph.bind("dcat", DCAT)
 metadata_graph.bind("prov", PROV)
+metadata_graph.bind("schema", SCHEMA)
+metadata_graph.bind("foaf", FOAF)
 
 # Define the folder path where the CSV files are stored
 folder_path = 'data/armenia_export_eurostat'
@@ -94,7 +98,11 @@ dataset_uri = EX["dataset/eurostat_exports"]
 metadata_graph.add((catalog_uri, RDF.type, DCAT.Catalog))
 metadata_graph.add((catalog_uri, DCTERMS.title, Literal("EU Export Dataset Catalog", datatype=XSD.string)))
 metadata_graph.add((catalog_uri, DCTERMS.description, Literal("A catalog of datasets representing EU export information.", datatype=XSD.string)))
-metadata_graph.add((catalog_uri, DCTERMS.publisher, WIKIDATA["Q458"]))  # Assuming EU as publisher
+
+# Publisher (ensure it's a foaf:Agent)
+metadata_graph.add((WIKIDATA["Q458"], RDF.type, URIRef("http://xmlns.com/foaf/0.1/Agent")))
+metadata_graph.add((catalog_uri, DCTERMS.publisher, WIKIDATA["Q458"]))
+
 metadata_graph.add((catalog_uri, DCAT.dataset, dataset_uri))
 
 # Add dataset metadata to the metadata graph
@@ -103,11 +111,36 @@ metadata_graph.add((dataset_uri, DCTERMS.title, Literal("EU Export Data for Vari
 metadata_graph.add((dataset_uri, DCTERMS.description, Literal("This dataset contains export data from the European Union to multiple countries, covering 2019-2024.", datatype=XSD.string)))
 metadata_graph.add((dataset_uri, DCTERMS.creator, WIKIDATA["Q458"]))
 metadata_graph.add((dataset_uri, DCTERMS.issued, Literal("2024-11-17", datatype=XSD.date)))
-metadata_graph.add((dataset_uri, DCTERMS.temporal, Literal("2019-01 to 2024-12", datatype=XSD.string)))
-metadata_graph.add((dataset_uri, DCTERMS.spatial, WIKIDATA["Q458"]))  # Representing the EU
-metadata_graph.add((dataset_uri, DCAT.distribution, URIRef("https://sanctions.streamlit.app/data/ttl/eurostat_data.ttl")))
+
+# Temporal (dcterms:temporal must be a PeriodOfTime)
+temporal_uri = EX["time_period/2019-01_to_2024-12"]
+metadata_graph.add((temporal_uri, RDF.type, DCTERMS.PeriodOfTime))
+metadata_graph.add((temporal_uri, SCHEMA.startDate, Literal("2019-01", datatype=XSD.gYearMonth)))
+metadata_graph.add((temporal_uri, SCHEMA.endDate, Literal("2024-12", datatype=XSD.gYearMonth)))
+metadata_graph.add((dataset_uri, DCTERMS.temporal, temporal_uri))
+
+# Spatial (dcterms:spatial must be a Location)
+metadata_graph.add((WIKIDATA["Q458"], RDF.type, DCTERMS.Location))
+metadata_graph.add((dataset_uri, DCTERMS.spatial, WIKIDATA["Q458"]))
+
+# Define distribution with required properties
+distribution_uri = URIRef("https://sanctions.streamlit.app/data/ttl/eurostat_data.ttl")
+metadata_graph.add((distribution_uri, RDF.type, DCAT.Distribution))
+metadata_graph.add((distribution_uri, DCTERMS.format, URIRef("http://purl.org/NET/mediatypes/text/turtle")))  # Media type
+metadata_graph.add((distribution_uri, DCAT.accessURL, URIRef("https://sanctions.streamlit.app/data/ttl/eurostat_data.ttl")))
+metadata_graph.add((dataset_uri, DCAT.distribution, distribution_uri))
+
+# Declare the media type as an instance of dcterms:MediaTypeOrExtent
+metadata_graph.add((URIRef("http://purl.org/NET/mediatypes/text/turtle"), RDF.type, DCTERMS.MediaTypeOrExtent))
+
+# Add missing foaf:name for European Union
+metadata_graph.add((WIKIDATA["Q458"], RDF.type, URIRef("http://xmlns.com/foaf/0.1/Agent")))
+metadata_graph.add((WIKIDATA["Q458"], FOAF.name, Literal("European Union", datatype=XSD.string)))
+
+# License
 license_uri = URIRef("https://creativecommons.org/licenses/by/4.0/")
 metadata_graph.add((dataset_uri, DCTERMS.license, license_uri))
+
 
 # Iterate over rows
 for idx, row in combined_df.iterrows():
@@ -144,6 +177,8 @@ for idx, row in combined_df.iterrows():
 
 # Serialize the metadata graph to Turtle format
 metadata_graph.serialize(destination='data/ttl/eurostat_metadata.ttl', format='turtle')
+metadata_graph.serialize(destination='data/ttl/eurostat_metadata.json', format='json-ld')
 
 # Serialize the graph with full dataset to Turtle format
 g.serialize(destination='data/ttl/eurostat_data.ttl', format='turtle')
+g.serialize(destination='data/ttl/eurostat_data.json', format='json-ld')
