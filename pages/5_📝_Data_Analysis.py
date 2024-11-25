@@ -19,55 +19,54 @@ with st.sidebar:
     ''')
 
 # Streamlit App for "Data Analysis"
-st.title("Data Analysis")
-st.write('''
-### Methodology: Detecting Anomalous Trade Pattern Changes
+st.title("Detecting Anomalous Trade Pattern Changes")
+st.write('''Our analysis identified countries with unusual increases in EU export volumes using a systematic statistical approach:
 
-Our analysis identified countries with unusual increases in EU export volumes using a systematic statistical approach:
+#### **1. Data Collection and Preparation**
 
-#### 1. Data Collection and Preparation
-- Gathered EU export data for all partner countries (2019-2023)
-- Organized data to track year-over-year changes
-- Focused on detecting significant changes around sanctions implementation (2021-2022)
+We began by collecting extensive EU export data for all partner countries from **2010 to 2023** from Eurostat database. 
+         It contains detailed information on the value of goods exported to each country annually (columns "Partner", "Period" and "Value in EUR").
+         The total amount of export for all types og goods is recorded in the column "Value in EUR".
+         This rich dataset allowed us to **track long-term trends** in export volumes; **establish historical baselines** 
+         for each country's trade activity and **detect deviations** that may signal significant shifts in trade relationships.
 
-#### 2. Statistical Analysis Process
+> NB. For 2016, the dataset contains different names for some countries: for example, Uzbekistan is called 'Ouzbékistan', Kyrgyzstan is called 'Kirghizistan', Armenia is called 'Arménie', and this has caused some problems in data processing,  so we need to rename these countries to their correct names in order to be consistent with data from other years.
 
-**Step 1: Calculate Growth Rates**
-- Computed year-over-year growth percentages for each country
-- Example: Armenia's exports grew by 148.9% from 2021 to 2022
+#### **2. Data Analysis**
 
-**Step 2: Establish Baseline**
-- Used 2019-2021 as baseline period
-- Calculated mean growth rate and standard deviation for each country
-- This helps identify what constitutes "normal" variation
+**1. Calculating Year-over-Year Growth Rates**. For each country, we computed the annual growth rates in export values. 
+         This provided a clear picture of how trade volumes fluctuated year by year. 
+**Example:** Armenia's exports showed modest changes until a sharp increase was observed in 2022.
 
-**Step 3: Detect Anomalies**
-- Used Z-scores to identify statistically significant changes
-- Z-score > 1.96 indicates 95% confidence that change is unusual
-- Added filter for growth rates > 50% to focus on substantial changes
+**2. Detecting Historical Baselines**. The average growth rate and standard deviation for each country were calculated from 2010 to 2021. This historical baseline enabled the identification of the typical variability in trade patterns for each partner.
 
-#### 3. Key Findings
+**3. Identifying anomalies with statistical accuracy**. Using the baseline, we calculated the **Z-score** for the growth from 2021 to 2022.
+A **Z-score** quantifies how many standard deviations an element is from the mean. 
+We considered a **Z-score greater than 1.96** (corresponding to a 95% confidence level) as statistically significant.
+Additionally, we focused on countries with a **growth rate exceeding 50%** and an export volume greater than **100 million EUR** 
+         in 2022 to ensure the changes were substantial and economically meaningful.
 
-Among the identified countries, several stand out as particularly significant:
+This analysis allows us to demonstrate with figures the real increase in trade volumes in 2022 compared to previous years:
+- **Kyrgyzstan**: 344.8%
+- **Armenia**: 148.9%
+- **Kazakhstan**: 88.6%
+- **Uzbekistan**: 63.8%
+- **Trinidad and Tobago**: 122.6%
 
-**Primary Concerns:**
-- **Kyrgyzstan**: 344.8% growth (2021-2022)
-- **Armenia**: 148.9% growth (2021-2022)
-- **Kazakhstan**: 88.6% growth (2021-2022)
-- **Uzbekistan**: 63.8% growth (2021-2022)
+The data show a sharp increase in trade volumes with the EU in 2022, with Kyrgyzstan and Armenia leading the way. 
+These trends are consistent with shifts in geopolitical and economic dynamics, particularly in the context of sanctions against Russia.
 
-These countries share important characteristics:
-- Geographic proximity to Russia
-- Historical economic ties with Russia
-- Unprecedented growth rates
-- Statistically significant deviation from historical patterns
+**Note**: Trinidad and Tobago also showed a remarkable increase in exports from the EU, with a growth rate of 122.6%. 
+This is particularly significant given its smaller trade volumes in prior years.
 
-### Significance of Findings
+#### **3. Interpreting the Patterns**
 
-The identified patterns suggest systematic changes in trade flows:
-- Growth rates far exceeding historical norms
-- Concentration in countries neighboring Russia
-- Timing coinciding with sanctions implementation
+Several commonalities (geopolitical proximity, economic ties and temporal correlation) can explain these findings. 
+All the countries identified are neighbours or close to Russia, facilitating potential trade diversion. 
+They have established economic relations with both the EU and Russia, making them viable intermediaries. 
+The timing of the export surges coincides closely with the implementation of sanctions against Russia in 2022.
+
+So this trend analysis allows us to identify anomalies and provide a list of countries to investigate [further](/Visualization).
 ''')
 
 # Data Processing and Visualization
@@ -85,12 +84,12 @@ def load_data():
 
 data = load_data()
 # Step 2: Extract year information and filter relevant data
-data['YEAR'] = data['PERIOD'].str[:4].astype(int)
+data['YEAR'] = data['PERIOD'].str[-4:].astype(int)
 
 # Remove rows where 'YEAR' is NaN
 data = data.dropna(subset=['YEAR'])
 data['YEAR'] = data['YEAR'].astype(int)
-MIN_EXPORT_VOLUME = 1000000000
+MIN_EXPORT_VOLUME = 100000000
 
 # Step 3: Pivot the data for yearly comparison
 pivot_data = data.pivot_table(
@@ -98,14 +97,13 @@ pivot_data = data.pivot_table(
 ).fillna(0)
 
 # Step 4: Calculate year-over-year growth percentages
-for year in range(2019, 2022):  # Adjust range based on your data
+for year in range(2010, 2023):  # Adjust range based on your data
     if year + 1 in pivot_data.columns:
         pivot_data[f'GROWTH_{year}_{year+1}'] = ((pivot_data[year + 1] - pivot_data[year]) / pivot_data[year].replace(0, np.nan)) * 100
 
 # Step 5: Identify statistically significant growth from 2021 to 2022
 # Calculate the mean and standard deviation of previous growth rates (2019-2020 and 2020-2021)
-
-growth_cols = [f'GROWTH_{year}_{year+1}' for year in range(2019, 2021) if f'GROWTH_{year}_{year+1}' in pivot_data.columns]
+growth_cols = [f'GROWTH_{year}_{year+1}' for year in range(2010, 2021) if f'GROWTH_{year}_{year+1}' in pivot_data.columns]
 pivot_data['MEAN_PREV_GROWTH'] = pivot_data[growth_cols].mean(axis=1)
 pivot_data['STD_PREV_GROWTH'] = pivot_data[growth_cols].std(axis=1)
 
@@ -126,6 +124,7 @@ significant_growth_countries = pivot_data[
 
 # Remove infinite and NaN values resulting from division by zero
 significant_growth_countries = significant_growth_countries.replace([np.inf, -np.inf], np.nan).dropna(subset=['Z_SCORE_2021_2022'])
+significant_growth_countries = significant_growth_countries.sort_values('Z_SCORE_2021_2022', ascending=False)
 
 # Display the results
 st.subheader("Countries with Significant Growth in Exports from EU (2021-2022)")
@@ -137,7 +136,7 @@ The following countries exhibited statistically significant growth in exports fr
 significant_growth_countries = significant_growth_countries.reset_index()
 
 # Select relevant columns to display
-display_columns = ['PARTNER', 2019, 2020, 2021, 2022, 'GROWTH_2019_2020', 'GROWTH_2020_2021', 'GROWTH_2021_2022', 'MEAN_PREV_GROWTH', 'STD_PREV_GROWTH', 'Z_SCORE_2021_2022']
+display_columns = ['PARTNER', 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 'GROWTH_2019_2020', 'GROWTH_2020_2021', 'GROWTH_2021_2022', 'MEAN_PREV_GROWTH', 'STD_PREV_GROWTH', 'Z_SCORE_2021_2022']
 
 st.dataframe(significant_growth_countries[display_columns].round(2))
 
