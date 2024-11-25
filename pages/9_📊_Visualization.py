@@ -14,34 +14,41 @@ st.set_page_config(
 with st.sidebar:
     st.markdown('''
     ### About
-    This project hypothesizes 
-    that Russia is circumventing EU sanctions 
-    by increasing trade through intermediary countries 
-    such as Kyrgyzstan and Armenia, 
+    This project hypothesizes
+    that Russia is circumventing EU sanctions
+    by increasing trade through intermediary countries
+    such as Kyrgyzstan and Armenia,
     which is reflected in anomalous trade data patterns post-2022.
     ''')
 
 # Helper function to load Kyrgyzstan state statistics data from Excel
+
+
 def load_state_statistics_data(file_path):
     # Load the data from the first sheet
     xl = pd.ExcelFile(file_path)
     df = xl.parse(xl.sheet_names[0], header=None)
 
-    df_cleaned = df.iloc[2:8, 2:]  # Starting from column index 2 to include year columns
-    
+    # Starting from column index 2 to include year columns
+    df_cleaned = df.iloc[2:8, 2:]
+
     # Rename columns appropriately
-    df_cleaned.columns = ['Category'] + [str(year) for year in range(1994, 2024)]
-    
+    df_cleaned.columns = ['Category'] + \
+        [str(year) for year in range(1994, 2024)]
+
     # Filter out rows with NaN categories or irrelevant information
     df_cleaned = df_cleaned[df_cleaned['Category'].notna()]
-    
+
     # Melt the DataFrame to have a year-wise representation
-    melted_df = df_cleaned.melt(id_vars=['Category'], var_name='Year', value_name='Value')
+    melted_df = df_cleaned.melt(
+        id_vars=['Category'], var_name='Year', value_name='Value')
     melted_df['Year'] = melted_df['Year'].astype(int)
-    
+
     return melted_df
 
 # Helper function to load data from a given folder
+
+
 def load_data(folder_path):
     combined_df = pd.DataFrame()
     for file in glob.glob(os.path.join(folder_path, '*.csv')):
@@ -50,49 +57,63 @@ def load_data(folder_path):
     return combined_df
 
 # Function to preprocess data
+
+
 def preprocess_data(data):
     # Filter the necessary columns for visualization
     combined_df_filtered = data[['REPORTER', 'PERIOD', 'VALUE_IN_EUR']]
-    
+
     # Remove rows where 'REPORTER' contains 'Euro area' or 'European Union'
-    combined_df_filtered = combined_df_filtered[~combined_df_filtered['REPORTER'].str.contains('Euro area|European Union|Union européenne|Zone euro')]
-    
+    combined_df_filtered = combined_df_filtered[~combined_df_filtered['REPORTER'].str.contains(
+        'Euro area|European Union|Union européenne|Zone euro')]
+
     # Keep only the first word of the 'REPORTER' column
-    combined_df_filtered['REPORTER'] = combined_df_filtered['REPORTER'].str.split().str[0]
-    
+    combined_df_filtered['REPORTER'] = combined_df_filtered['REPORTER'].str.split(
+    ).str[0]
+
     # Convert the 'PERIOD' column to datetime format for proper sorting
-    combined_df_filtered['PERIOD'] = pd.to_datetime(combined_df_filtered['PERIOD'], format='%b. %Y', errors='coerce')
-    
+    combined_df_filtered['PERIOD'] = pd.to_datetime(
+        combined_df_filtered['PERIOD'], format='%b. %Y', errors='coerce')
+
     # Format 'PERIOD' to show only year and month
-    combined_df_filtered['PERIOD'] = combined_df_filtered['PERIOD'].dt.strftime('%Y-%m')
-    
+    combined_df_filtered['PERIOD'] = combined_df_filtered['PERIOD'].dt.strftime(
+        '%Y-%m')
+
     # Sort the data by 'PERIOD'
     combined_df_filtered = combined_df_filtered.sort_values(by='PERIOD')
-    
+
     return combined_df_filtered
 
 # Helper function to preprocess Kazakhstan data
+
+
 def preprocess_data_kazakhstan(data):
     combined_df_filtered = data[['REPORTER', 'PERIOD', 'VALUE_IN_EUR']]
-    
+
     # Remove rows where 'REPORTER' contains 'Euro area' or 'European Union'
-    combined_df_filtered = combined_df_filtered[~combined_df_filtered['REPORTER'].str.contains('Euro area|European Union')]
-    
+    combined_df_filtered = combined_df_filtered[~combined_df_filtered['REPORTER'].str.contains(
+        'Euro area|European Union')]
+
     # Keep only the first word of the 'REPORTER' column
-    combined_df_filtered['REPORTER'] = combined_df_filtered['REPORTER'].str.split().str[0]
-    
+    combined_df_filtered['REPORTER'] = combined_df_filtered['REPORTER'].str.split(
+    ).str[0]
+
     # Convert the 'PERIOD' column to datetime format for proper sorting
-    combined_df_filtered['PERIOD'] = pd.to_datetime(combined_df_filtered['PERIOD'].str.split('-').str[0], format='%Y%m', errors='coerce')
-    
+    combined_df_filtered['PERIOD'] = pd.to_datetime(
+        combined_df_filtered['PERIOD'].str.split('-').str[0], format='%Y%m', errors='coerce')
+
     # Format 'PERIOD' to show only year and month
-    combined_df_filtered['PERIOD'] = combined_df_filtered['PERIOD'].dt.strftime('%Y-%m')
-    
+    combined_df_filtered['PERIOD'] = combined_df_filtered['PERIOD'].dt.strftime(
+        '%Y-%m')
+
     # Sort the data by 'PERIOD'
     combined_df_filtered = combined_df_filtered.sort_values(by='PERIOD')
-    
+
     return combined_df_filtered
 
 # Main function for the Streamlit page
+
+
 def main():
     st.title('EU Export Analysis to Russia, Kyrgyzstan, and Armenia')
 
@@ -106,16 +127,17 @@ def main():
 
     Use the tabs to navigate between different countries to view detailed analyses of the trade data.
     '''
-    )
+             )
 
     # Load data from the three folders
     data_russia = load_data('data/russia_export_eurostat')
     data_kyrgyzstan = load_data('data/kyrgyz_export_eurostat')
     data_armenia = load_data('data/armenia_export_eurostat')
     data_georgia = load_data('data/georgia_export_eurostat')
-    data_uzbekistan = load_data('data/uzbekistan_export_eurostat')
+    data_uzbekistan = load_data('data/uzbek_export_eurostat')
 
-    kyrgyzstan_state_stats = load_state_statistics_data('data/kyrgyzstan_data/4.03.00.20 Географическое распределение импорта товаров..xlsx')
+    kyrgyzstan_state_stats = load_state_statistics_data(
+        'data/kyrgyzstan_data/4.03.00.20 Географическое распределение импорта товаров..xlsx')
 
     # Create tabs for each country
     tab_russia, tab_kyrgyzstan, tab_armenia, tab_georgia, tab_kazakhstan, tab_uzbekistan, tab_overall_trends = st.tabs([
@@ -156,25 +178,32 @@ def main():
         # Comparison Table: Eurostat vs Kyrgyzstan State Data
         st.subheader('Yearly Comparison of Eurostat and Kyrgyzstan State Data')
         st.write('''
-        The table below provides a yearly comparison of the total export values from the EU to Kyrgyzstan as reported by Eurostat versus the values recorded by Kyrgyzstan's state statistics. 
-        
+        The table below provides a yearly comparison of the total export values from the EU to Kyrgyzstan as reported by Eurostat versus the values recorded by Kyrgyzstan's state statistics.
+
         Since 2022, there has been a significant discrepancy between the two data sources. Possible reasons for this difference include rerouting of imports to avoid sanctions, underreporting by Kyrgyzstan, differences in reporting standards, and issues with currency conversion.
         ''')
         # Filter Eurostat data to get rows for "European Union - 27 countries"
-        eu_27_data = data_kyrgyzstan[data_kyrgyzstan['REPORTER'].str.contains('European Union - 27 countries')]
-        eu_27_data['Year'] = pd.to_datetime(eu_27_data['PERIOD'], format='%b. %Y').dt.year
-        yearly_eu_27_data = eu_27_data.groupby('Year')['VALUE_IN_EUR'].sum().reset_index()
-        yearly_eu_27_data.rename(columns={'VALUE_IN_EUR': 'Eurostat Value (EUR)'}, inplace=True)
+        eu_27_data = data_kyrgyzstan[data_kyrgyzstan['REPORTER'].str.contains(
+            'European Union - 27 countries')]
+        eu_27_data['Year'] = pd.to_datetime(
+            eu_27_data['PERIOD'], format='%b. %Y').dt.year
+        yearly_eu_27_data = eu_27_data.groupby(
+            'Year')['VALUE_IN_EUR'].sum().reset_index()
+        yearly_eu_27_data.rename(
+            columns={'VALUE_IN_EUR': 'Eurostat Value (EUR)'}, inplace=True)
         yearly_eu_27_data['Year'] = yearly_eu_27_data['Year'].astype(str)
-        
-        # Merge with Kyrgyzstan state data for comparison
-        kyrgyz_total = kyrgyzstan_state_stats[kyrgyzstan_state_stats['Category'] == 'The EU'][['Year', 'Value']]
-        kyrgyz_total.rename(columns={'Value': 'Kyrgyzstan State Value (Thousand USD)'}, inplace=True)
-        kyrgyz_total['Year'] = kyrgyz_total['Year'].astype(str)
-        comparison_df = pd.merge(yearly_eu_27_data, kyrgyz_total, on='Year', how='inner').set_index('Year')
-        # Add a new column to calculate the percentage difference
-        comparison_df['Percentage Difference (%)'] = ((comparison_df['Eurostat Value (EUR)'] - comparison_df['Kyrgyzstan State Value (Thousand USD)'] * 1000) / comparison_df['Eurostat Value (EUR)']) * 100
 
+        # Merge with Kyrgyzstan state data for comparison
+        kyrgyz_total = kyrgyzstan_state_stats[kyrgyzstan_state_stats['Category'] == 'The EU'][[
+            'Year', 'Value']]
+        kyrgyz_total.rename(
+            columns={'Value': 'Kyrgyzstan State Value (Thousand USD)'}, inplace=True)
+        kyrgyz_total['Year'] = kyrgyz_total['Year'].astype(str)
+        comparison_df = pd.merge(
+            yearly_eu_27_data, kyrgyz_total, on='Year', how='inner').set_index('Year')
+        # Add a new column to calculate the percentage difference
+        comparison_df['Percentage Difference (%)'] = (
+            (comparison_df['Eurostat Value (EUR)'] - comparison_df['Kyrgyzstan State Value (Thousand USD)'] * 1000) / comparison_df['Eurostat Value (EUR)']) * 100
 
         # Display the comparison table
         st.dataframe(comparison_df)
@@ -188,13 +217,44 @@ def main():
         - Different Reporting Standards: Eurostat uses harmonized methodologies that ensure consistency across EU countries. On the other hand, Kyrgyzstan’s data might be based on different classifications, accounting practices, or even exchange rate calculations, leading to differences.
         - Currency Valuation and Conversion Issues: The values are in EUR and USD, which introduces potential discrepancies due to exchange rate fluctuations. The timing of data collection and currency conversion can also significantly impact the reported numbers.
         - Sanctioned Goods and Parallel Trade: There might be discrepancies specifically for sanctioned goods that Kyrgyzstan prefers to keep off-record. This could involve sensitive items like technology or dual-use goods, which may be routed through Kyrgyzstan to reach Russia.
-        
+
         These differences suggest a need to critically analyze both data sources, especially considering the political and economic pressures at play during and after the imposition of sanctions on Russia.
                  ''')
 
     with tab_armenia:
         combined_df_filtered = preprocess_data(data_armenia)
         visualize_stacked_bar_chart(combined_df_filtered, 'Armenia')
+
+        file_path = 'data/armenia_data/armenia_data.csv'  # Replace with your file path
+        data = pd.read_csv(file_path)
+        data['timeperiod'] = pd.to_datetime(
+            data['timeperiod'], format='%m', errors='coerce').dt.strftime('%B')
+        # Select and rename relevant columns
+        data_cleaned = data[['country', 'timeperiod', 'year', 'import_consigment']].rename(
+            columns={
+                'country': 'Reporter',
+                'timeperiod': 'Month',
+                'year': 'Year',
+                'import_consigment': 'Import Value'
+            }
+        )
+        # Convert 'Import Value' to numeric, handling missing or invalid values
+        data_cleaned['Import Value'] = pd.to_numeric(
+            data_cleaned['Import Value'], errors='coerce')
+        grouped_data = data_cleaned.groupby(
+            ['Reporter', 'Month', 'Year'], as_index=False)['Import Value'].sum()
+        line_chart_data = grouped_data.groupby(['Year', 'Reporter'], as_index=False)['Import Value'].sum()
+
+        fig = px.line(
+            line_chart_data,
+            x='Year',
+            y='Import Value',
+            color='Reporter',
+            title='Total Imports to Armenia by Reporting Country',
+            labels={'Year': 'Year', 'Import Value': 'Value in Numeric Units', 'Reporter': 'Country'},
+        )
+
+        st.plotly_chart(fig, use_container_width=True)
 
     with tab_georgia:
         combined_df_filtered = preprocess_data(data_georgia)
@@ -212,14 +272,19 @@ def main():
     with tab_overall_trends:
         # Load and preprocess data for each country
         combined_data = []
-        countries = ['Russia', 'Kyrgyzstan', 'Armenia', 'Georgia', 'Kazakhstan', 'Uzbekistan']
-        data_files = [data_russia, data_kyrgyzstan, data_armenia, data_georgia, data_kazakhstan, data_uzbekistan]
-        preprocess_funcs = [preprocess_data, preprocess_data, preprocess_data, preprocess_data, preprocess_data_kazakhstan, preprocess_data]
+        countries = ['Russia', 'Kyrgyzstan', 'Armenia',
+            'Georgia', 'Kazakhstan', 'Uzbekistan']
+        data_files = [data_russia, data_kyrgyzstan, data_armenia,
+            data_georgia, data_kazakhstan, data_uzbekistan]
+        preprocess_funcs = [preprocess_data, preprocess_data, preprocess_data,
+            preprocess_data, preprocess_data_kazakhstan, preprocess_data]
 
         for country, data, preprocess in zip(countries, data_files, preprocess_funcs):
             preprocessed_data = preprocess(data)
-            monthly_data = preprocessed_data.groupby('PERIOD')['VALUE_IN_EUR'].sum().reset_index()
-            monthly_data.rename(columns={'VALUE_IN_EUR': 'Export Value', 'PERIOD': 'Month'}, inplace=True)
+            monthly_data = preprocessed_data.groupby(
+                'PERIOD')['VALUE_IN_EUR'].sum().reset_index()
+            monthly_data.rename(
+                columns={'VALUE_IN_EUR': 'Export Value', 'PERIOD': 'Month'}, inplace=True)
             monthly_data['Country'] = country
             combined_data.append(monthly_data)
 
@@ -232,17 +297,22 @@ def main():
             y='Export Value',
             color='Country',
             title='Overall Export Trends from EU to Russia, Kyrgyzstan, Armenia, Georgia, Uzbekistan, and Kazakhstan (2019 - 2024)',
-            labels={'Month': 'Month', 'Export Value': 'Export Value (EUR)', 'Country': 'Country'}
+            labels={'Month': 'Month',
+                'Export Value': 'Export Value (EUR)', 'Country': 'Country'}
         )
         fig.update_layout(barmode='stack')
 
         st.plotly_chart(fig, use_container_width=True)
 
 # Helper function to visualize the data using Streamlit's stacked bar chart
+
 def visualize_stacked_bar_chart(data, country_name):
+    # Convert 'PERIOD' column to datetime
+    data['PERIOD'] = pd.to_datetime(data['PERIOD'], format='%Y-%m', errors='coerce')
+
     # Group data by 'REPORTER' and 'PERIOD' and sum the values for visualization
     grouped_df = data.groupby(['PERIOD', 'REPORTER'])['VALUE_IN_EUR'].sum().reset_index()
-    
+
     if not grouped_df.empty:
         # Plotting the data using Plotly for a stacked bar chart
         fig = px.bar(
@@ -253,10 +323,41 @@ def visualize_stacked_bar_chart(data, country_name):
             title=f'Exports to {country_name} from EU Countries (2019 - 2024) / EuroStat Data',
             labels={'VALUE_IN_EUR': 'Value in EUR', 'PERIOD': 'Month', 'REPORTER': 'Country'},
         )
+
+        # Adding a vertical line for February 2022
+        feb_2022 = pd.Timestamp('2022-02-01')  # Define the vertical line position as datetime
+        fig.update_layout(
+            shapes=[
+                dict(
+                    type="line",
+                    x0=feb_2022,
+                    x1=feb_2022,
+                    y0=0,
+                    y1=1,
+                    xref="x",
+                    yref="paper",
+                    line=dict(color="red", width=2, dash="dash")
+                )
+            ],
+            annotations=[
+                dict(
+                    x=feb_2022,
+                    y=1,
+                    xref="x",
+                    yref="paper",
+                    showarrow=False,
+                    text="Feb 2022",
+                    align="center"
+                )
+            ]
+        )
+
         fig.update_layout(barmode='stack', xaxis_tickangle=-45)
         st.plotly_chart(fig, use_container_width=True)
     else:
         st.warning(f"No data available for exports to {country_name}")
+
+
 
 if __name__ == "__main__":
     main()
