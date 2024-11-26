@@ -44,29 +44,64 @@ with tab1:
     - **Format**: CSV files
     - **License**: [European Commission Reuse Policy](https://ec.europa.eu/info/legal-notice_en#reuse)
 
-    ## 2. Kyrgyzstan Trade Statistics
+    ## 2. Kyrgyzstan State Trade Statistics
 
-    - **Source**: [National Statistical Committee of the Kyrgyz Republic](https://stat.kg/en/statistics/foreign-trade/)
-    - **Description**: Data on Kyrgyzstan's imports and exports, including trade partners and sectoral breakdowns.
-    - **Time Period**: 2016 - 2023
+    - **Source**: [National Statistical Committee of the Kyrgyz Republic](https://stat.gov.kg/ru/statistics/vneshneekonomicheskaya-deyatelnost/)
+    - **Description**: Data on geographic distribution of Kyrgyzstan's imports of goods.
+    - **Time Period**: 2008 - 2023
     - **Variables**:
         - Trade values in thousand USD
-        - Partner countries
-        - Sectoral categories
+        - Partner countries, including grouping by regions (The EU, CIS, SCO, EAEU)
         - Yearly data
     - **Format**: XLSX (Excel)
-    - **License**: [Creative Commons Attribution](https://creativecommons.org/licenses/by/4.0/)
+    - **License**: [Creative Commons Attribution](http://www.opendefinition.org/licenses/cc-by)
+    - **Note**: Data for 2023 is marked as preliminary.
+    
+    ## 3. Armenian State Trade Statistics
+    - **Source**: [Statistical Committee of the Republic of Armenia through Open Data Armenia](https://data.opendata.am/dataset/armenia-external-trade-database-2017-2023)
+    - **Description**: Data on Armenia's external trade activities (imports and exports).
+    - **Time Period**: 2017 - 2023
+    - **Variables**:
+        - Trade values in thousand USD
+        - Trade partners (countries)
+        - Monthly data
+    - **Format**: CSV
+    - **License**: [Other (Public Domain)](https://opendatacommons.org/licenses)
+    - **Updated**: April 4, 2023
 
-    ## 3. Russian Trade Data
+    ## 4. Uzbekistan State Trade Statistics
+             
+    - **Source**: [National Statistical Committee of the Republic of Uzbekistan](https://stat.uz/en/official-statistics/merchandise-trade)
+    - **Description**: Data on Uzbekistan's trade activities with various partners.
+    - **Time Period**: 2010 - 2023
+    - **Variables**:
+        - Trade values in thousand USD
+        - Trade partners (countries)
+        - Yearly data
+    - **Format**: CSV
+             
+    ## 5. Kazakhstan State Trade Statistics
+             
+    - **Source**: [Bureau of National Statistics, Agency for Strategic Planning and Reforms of the Republic of Kazakhstan](https://stat.gov.kz/en/industries/economy/foreign-market/spreadsheets/?year=2021&name=47218&period=&type=)
+    - **Description**: Data on Kazakhstan's trade activities with various partners (imports and exports).
+    - **Time Period**: 2021 - 2024
+    - **Variables**:
+        - Trade values in thousand USD
+        - Trade partners (countries)
+        - Yearly data
+    - **Format**: XLSX
+    - **License**: Not specified
 
-    - **Source**: Limited availability due to data restrictions.
+    ## 6. Russian Trade Data
+
+    - **Source**: [Federal Custom Service of R](https://customs.gov.ru/statistic/vneshn-torg/vneshn-torg-countries), [Federal State Statistics Service of Russia (Rosstat)](https://eng.rosstat.gov.ru/)
     - **Description**: Partial data on Russia's trade activities with various partners.
-    - **Time Period**: 2019 - 2022
+    - **Time Period**: 2011 - 2022
     - **Variables**:
         - Trade values
-        - Trade partners
-        - Product categories
-    - **Format**: Varies (CSV, XLSX)
+        - Trade partners by regions
+        - Yearly data
+    - **Format**: Varies (XLSX)
     - **License**: Not specified
     ''')
 
@@ -99,7 +134,6 @@ with tab2:
 
     - **Time Period Standardization**: All datasets are aligned to cover the period from 2019 to 2024.
     - **Currency Conversion**: Kyrgyzstan's data in USD is converted to EUR using historical exchange rates for accurate comparisons.
-    - **Product Categorization**: Harmonized System (HS) codes are used to align product categories across datasets.
 
     ## Data Processing Steps
 
@@ -111,7 +145,6 @@ with tab2:
 
     ## Handling Missing Data
 
-    - **Imputation**: For minor gaps, use interpolation methods.
     - **Exclusion**: In cases of significant missing data, exclude affected records with appropriate documentation.
 
     ## Tools and Technologies

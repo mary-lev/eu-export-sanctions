@@ -3,6 +3,7 @@ import pandas as pd
 import glob
 import os
 import plotly.express as px
+import numpy as np
 
 # Set the page config
 st.set_page_config(
@@ -84,8 +85,6 @@ def preprocess_data(data):
 
     return combined_df_filtered
 
-# Helper function to preprocess Kazakhstan data
-
 
 def preprocess_data_kazakhstan(data):
     combined_df_filtered = data[['REPORTER', 'PERIOD', 'VALUE_IN_EUR']]
@@ -111,7 +110,19 @@ def preprocess_data_kazakhstan(data):
 
     return combined_df_filtered
 
-# Main function for the Streamlit page
+def preprocess_data_uzbekistan(filename):
+    uzbekistan_state_data = pd.read_csv(filename)
+    uzbekistan_long = uzbekistan_state_data.melt(
+        id_vars=['Code', 'Klassifikator_en'],
+        value_vars=[str(year) for year in range(2010, 2024)],
+        var_name='Year',
+        value_name='Import Value'
+    )
+    uzbekistan_long['Year'] = uzbekistan_long['Year'].astype(int)
+    # uzbekistan_state_grouped = uzbekistan_long.groupby('Year')['Import Value'].sum().reset_index()
+    #uzbekistan_long.rename(columns={'Import Value': 'Uzbekistan Import Value'}, inplace=True)
+
+    return uzbekistan_long
 
 
 def main():
@@ -138,6 +149,7 @@ def main():
 
     kyrgyzstan_state_stats = load_state_statistics_data(
         'data/kyrgyzstan_data/4.03.00.20 Географическое распределение импорта товаров..xlsx')
+    uzbekistan_state_stats = preprocess_data_uzbekistan('data/uzbekistan_data/sdmx_data_1176.csv')
 
     # Create tabs for each country
     tab_russia, tab_kyrgyzstan, tab_armenia, tab_georgia, tab_kazakhstan, tab_uzbekistan, tab_overall_trends = st.tabs([
@@ -224,6 +236,37 @@ def main():
     with tab_armenia:
         combined_df_filtered = preprocess_data(data_armenia)
         visualize_stacked_bar_chart(combined_df_filtered, 'Armenia')
+        armenia_state_file_path = 'data/armenia_data/armenia_data.csv' 
+        armenia_state_data = pd.read_csv(armenia_state_file_path)
+        armenia_state_data = armenia_state_data.rename(columns={
+            'country': 'REPORTER',
+            'year': 'YEAR',
+        })
+        armenia_state_data = armenia_state_data[armenia_state_data['timeperiod'] == 'Year']
+        armenia_state_data['YEAR'] = armenia_state_data['YEAR'].astype(int)
+
+        armenia_eurostat = data_armenia
+        armenia_eurostat['YEAR'] = armenia_eurostat['PERIOD'].str.extract(r'(\d{4})').astype(int)
+        armenia_eurostat_grouped = armenia_eurostat.groupby(['REPORTER', 'YEAR'])['VALUE_IN_EUR'].sum().reset_index()
+        print(armenia_eurostat_grouped.columns)
+
+        comparison_data = pd.merge(
+            armenia_eurostat_grouped,
+            armenia_state_data,
+            on=['REPORTER', 'YEAR'],
+            how='inner',
+            suffixes=('_Eurostat', '_State')
+        )
+        comparison_data = comparison_data[['REPORTER', 'YEAR', 'VALUE_IN_EUR', 'import_consigment', 'import_origin']].copy()
+        comparison_data["import_consigment"] = comparison_data["import_consigment"].replace('-', np.nan)
+
+        # Convert the column to float and handle NaN values
+        comparison_data["import_consigment"] = comparison_data["import_consigment"].astype(float)
+
+        # Multiply by 1000 to convert from thousands to dollars
+        comparison_data["import_consigment"] *= 1000
+
+        st.dataframe(comparison_data)
 
     with tab_georgia:
         combined_df_filtered = preprocess_data(data_georgia)
@@ -237,6 +280,28 @@ def main():
     with tab_uzbekistan:
         combined_df_filtered = preprocess_data(data_uzbekistan)
         visualize_stacked_bar_chart(combined_df_filtered, 'Uzbekistan')
+
+        data_uzbekistan['YEAR'] = data_uzbekistan['PERIOD'].str.extract(r'(\d{4})').astype(int)
+        grouped_df = data_uzbekistan.groupby(['REPORTER', 'YEAR'])['VALUE_IN_EUR'].sum().reset_index()
+        grouped_df['REPORTER'] = grouped_df['REPORTER'].str.split().str[0]
+
+        uzbekistan_state_stats['YEAR'] = uzbekistan_state_stats['Year'].astype(int)
+        uzbekistan_state_stats["Import Value"] = uzbekistan_state_stats["Import Value"].astype(float)
+        uzbekistan_state_stats["Import Value"] *= 1000
+        uzbekistan_state_stats.rename(columns={'Klassifikator_en': 'REPORTER', "Import Value": "Import Value, in USD"}, inplace=True)
+
+        merged_data_reporter = pd.merge(
+            grouped_df, 
+            uzbekistan_state_stats, 
+            on=['REPORTER', 'YEAR'], 
+            how='inner', 
+            suffixes=('_export', '_import')
+        )
+
+        st.write('''
+                 Combined Eurostat data about EU export to Uzbekistan and Uzbekistan state import data from EU
+                    ''')
+        st.dataframe(merged_data_reporter)
 
     with tab_overall_trends:
         # Load and preprocess data for each country
