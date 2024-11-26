@@ -30,7 +30,7 @@ We began by collecting extensive EU export data for all partner countries from *
          This rich dataset allowed us to **track long-term trends** in export volumes; **establish historical baselines** 
          for each country's trade activity and **detect deviations** that may signal significant shifts in trade relationships.
 
-> NB. For 2016, the dataset contains different names for some countries: for example, Uzbekistan is called 'Uzbekistan', Kyrgyzstan is called 'Kirghizistan', Armenia is called 'Arménie', and this has caused some problems in data processing,  so we need to rename these countries to their correct names in order to be consistent with data from other years.
+> NB. For 2016, the dataset contains different names for some countries: for example, Uzbekistan is called 'Ouzbekistan', Kyrgyzstan is called 'Kirghizistan', Armenia is called 'Arménie', and this has caused some problems in data processing,  so we need to rename these countries to their correct names in order to be consistent with data from other years.
 
 #### **2. Data Analysis**
 
@@ -155,3 +155,13 @@ fig = px.bar(
 )
 
 st.plotly_chart(fig, use_container_width=True)
+
+st.write('''
+         #### **Conclusion**
+
+So we can see that several countries, particularly **Kyrgyzstan**, **Armenia**, **Kazakhstan**, and **Uzbekistan**, have experienced significant and anomalous increases in exports from the EU in 2022. These increases are statistically significant, with Z-scores exceeding 1.96 and growth rates well above 50%, accompanied by substantial export volumes exceeding 100 million EUR.
+
+The timing and magnitude of these trade surges, along with the geopolitical proximity and economic ties of these countries to Russia, suggest the possibility of trade redirection that may be facilitating the circumvention of EU sanctions against Russia.
+
+These findings warrant a [deeper investigation](/Data_Analysis_and_Visualization) into the trade activities of these intermediary countries to understand the underlying factors contributing to these anomalies.
+''')
