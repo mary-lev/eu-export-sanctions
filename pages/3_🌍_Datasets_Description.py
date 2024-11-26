@@ -137,17 +137,11 @@ with tab1:
         - **Time Period Variations**:
             - Datasets cover varying time periods, making it challenging to align them perfectly for analysis.
             - For instance, Eurostat data spans **2010 - 2024**, while Armenia's data is available from **2017 - 2023**, and Kazakhstan's data covers **2021 - 2024**.
-        - **Data Gaps**:
-            - Some datasets have missing years or lack monthly granularity, limiting the depth of temporal analysis.
+        - **Data Gaps**. Some datasets lack monthly granularity, limiting the depth of temporal analysis.
     - **Accuracy**:
-        - **Currency and Units Discrepancies**:
-            - Eurostat reports trade values in **euros (EUR)**, while state agencies report in **thousand US dollars (USD)**.
-            - This requires careful currency conversion and unit adjustments to ensure accurate comparisons.
-        - **Inconsistent Country Names**:
-            - In the Eurostat dataset for certain years (e.g., 2016), country names are listed in different languages or spellings (e.g., 'Ouzbekistan' for Uzbekistan, 'Kirghizistan' for Kyrgyzstan, 'Arménie' for Armenia).
-            - These inconsistencies caused issues during data processing, necessitating the standardization of country names to maintain consistency across datasets.
-        - **Data Reliability**:
-            - While Eurostat data is assumed to be highly reliable due to standardized collection methods, the accuracy of state agency data may vary due to differences in data collection practices and potential political influences.
+        - **Currency and Units Discrepancies**. Eurostat reports trade values in **euros (EUR)**, while state agencies report in **thousand US dollars (USD)**. This requires careful currency conversion and unit adjustments to ensure accurate comparisons.
+        - **Inconsistent Country Names**. In the Eurostat dataset for certain years (e.g., 2016), country names are listed in different languages or spellings (e.g., 'Ouzbekistan' for Uzbekistan, 'Kirghizistan' for Kyrgyzstan, 'Arménie' for Armenia). These inconsistencies caused issues during data processing, necessitating the standardization of country names to maintain consistency across datasets.
+        - **Data Reliability**. While Eurostat data is assumed to be highly reliable due to standardized collection methods, the accuracy of state agency data may vary due to differences in data collection practices and potential political influences.
     - **Consistency**:
         - **Standardization Efforts**:
             - Variable names and data formats have been standardized across datasets to facilitate integration.
@@ -160,10 +154,8 @@ with tab1:
 
     st.subheader("Privacy Compliance")
     st.write('''
-    - **Personal Data**:
-        - All datasets are aggregated at the country level and do not include any personal or sensitive individual data.
-    - **Anonymization**:
-        - Not required, as the data does not contain personally identifiable information (PII).
+    - **Personal Data**. All datasets are aggregated at the country level and do not include any personal or sensitive individual data.
+    - **Anonymization** not required, as the data does not contain personally identifiable information (PII).
     - **Note**: Despite the absence of personal data, careful handling is necessary to respect any proprietary information and comply with data usage terms, especially given the lack of explicit licensing from some state agencies.
     ''')
 

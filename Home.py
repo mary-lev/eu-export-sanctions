@@ -17,7 +17,12 @@ with st.sidebar:
     by increasing trade through intermediary countries 
     such as Kyrgyzstan and Armenia, 
     which is reflected in anomalous trade data patterns post-2022.
-                ''')
+                
+
+    _The code and data for this project is available on [GitHub](https://github.com/mary-lev/eu-export-sanctions)._
+
+    _[Maria Levchenko](mailto:marylevchenko@gmail.com), 2024_
+    ''')
     
 
      
