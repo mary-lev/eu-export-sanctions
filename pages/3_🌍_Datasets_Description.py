@@ -193,9 +193,7 @@ with tab3:
     - **Impact of Limited Russian Data**:
         - The absence of detailed Russian trade data could introduce biases in the analysis.
         - There's a risk of overemphasizing anomalies in intermediary countries without fully understanding Russia's direct trade activities.
-    - **Mitigation Strategies**:
-        - Acknowledge the data limitations openly in the analysis.
-        - Use alternative data sources where possible, such as mirror statistics from Russia's trade partners.
+    - **Mitigation Strategies**: Acknowledge the data limitations openly in the analysis.
 
     **Transparency and Responsibility:**
     - **Transparency**:
@@ -204,13 +202,6 @@ with tab3:
     - **Responsibility**:
         - Avoid drawing definitive conclusions solely based on incomplete data.
         - Present findings cautiously, emphasizing that they are based on the best available information.
-
-    **Ethical Use of Data:**
-    - **Attribution and Compliance**:
-        - Adhere to the usage conditions specified by data providers, including attribution requirements.
-    - **Respect for Data Restrictions**:
-        - Avoid attempting to access or use restricted data through unethical means.
-        - Respect any embargoes or limitations imposed by data sources.
 
     **Implications for Analysis:**
     - The limited availability of Russian data highlights the importance of ethical considerations in handling sensitive geopolitical information.
