@@ -5,7 +5,6 @@ import os
 import plotly.express as px
 import numpy as np
 
-# Set the page config
 st.set_page_config(
     page_title='EU Export Analysis to Russia, Kyrgyzstan, and Armenia',
     page_icon=':bar_chart:',
@@ -22,32 +21,23 @@ with st.sidebar:
     which is reflected in anomalous trade data patterns post-2022.
     ''')
 
-# Helper function to load Kyrgyzstan state statistics data from Excel
-
 
 def load_state_statistics_data(file_path):
-    # Load the data from the first sheet
     xl = pd.ExcelFile(file_path)
     df = xl.parse(xl.sheet_names[0], header=None)
 
-    # Starting from column index 2 to include year columns
     df_cleaned = df.iloc[2:8, 2:]
 
-    # Rename columns appropriately
     df_cleaned.columns = ['Category'] + \
         [str(year) for year in range(1994, 2024)]
 
-    # Filter out rows with NaN categories or irrelevant information
     df_cleaned = df_cleaned[df_cleaned['Category'].notna()]
 
-    # Melt the DataFrame to have a year-wise representation
     melted_df = df_cleaned.melt(
         id_vars=['Category'], var_name='Year', value_name='Value')
     melted_df['Year'] = melted_df['Year'].astype(int)
 
     return melted_df
-
-# Helper function to load data from a given folder
 
 
 def load_data(folder_path):
@@ -57,30 +47,23 @@ def load_data(folder_path):
         combined_df = pd.concat([combined_df, df], ignore_index=True)
     return combined_df
 
-# Function to preprocess data
-
 
 def preprocess_data(data):
-    # Filter the necessary columns for visualization
     combined_df_filtered = data[['REPORTER', 'PERIOD', 'VALUE_IN_EUR']]
 
     # Remove rows where 'REPORTER' contains 'Euro area' or 'European Union'
     combined_df_filtered = combined_df_filtered[~combined_df_filtered['REPORTER'].str.contains(
         'Euro area|European Union|Union européenne|Zone euro')]
 
-    # Keep only the first word of the 'REPORTER' column
     combined_df_filtered['REPORTER'] = combined_df_filtered['REPORTER'].str.split(
     ).str[0]
 
-    # Convert the 'PERIOD' column to datetime format for proper sorting
     combined_df_filtered['PERIOD'] = pd.to_datetime(
         combined_df_filtered['PERIOD'], format='%b. %Y', errors='coerce')
 
-    # Format 'PERIOD' to show only year and month
     combined_df_filtered['PERIOD'] = combined_df_filtered['PERIOD'].dt.strftime(
         '%Y-%m')
 
-    # Sort the data by 'PERIOD'
     combined_df_filtered = combined_df_filtered.sort_values(by='PERIOD')
 
     return combined_df_filtered
@@ -89,26 +72,22 @@ def preprocess_data(data):
 def preprocess_data_kazakhstan(data):
     combined_df_filtered = data[['REPORTER', 'PERIOD', 'VALUE_IN_EUR']]
 
-    # Remove rows where 'REPORTER' contains 'Euro area' or 'European Union'
     combined_df_filtered = combined_df_filtered[~combined_df_filtered['REPORTER'].str.contains(
         'Euro area|European Union')]
 
-    # Keep only the first word of the 'REPORTER' column
     combined_df_filtered['REPORTER'] = combined_df_filtered['REPORTER'].str.split(
     ).str[0]
 
-    # Convert the 'PERIOD' column to datetime format for proper sorting
     combined_df_filtered['PERIOD'] = pd.to_datetime(
         combined_df_filtered['PERIOD'].str.split('-').str[0], format='%Y%m', errors='coerce')
 
-    # Format 'PERIOD' to show only year and month
     combined_df_filtered['PERIOD'] = combined_df_filtered['PERIOD'].dt.strftime(
         '%Y-%m')
 
-    # Sort the data by 'PERIOD'
     combined_df_filtered = combined_df_filtered.sort_values(by='PERIOD')
 
     return combined_df_filtered
+
 
 def preprocess_data_uzbekistan(filename):
     uzbekistan_state_data = pd.read_csv(filename)
@@ -119,9 +98,6 @@ def preprocess_data_uzbekistan(filename):
         value_name='Import Value'
     )
     uzbekistan_long['Year'] = uzbekistan_long['Year'].astype(int)
-    # uzbekistan_state_grouped = uzbekistan_long.groupby('Year')['Import Value'].sum().reset_index()
-    #uzbekistan_long.rename(columns={'Import Value': 'Uzbekistan Import Value'}, inplace=True)
-
     return uzbekistan_long
 
 
@@ -140,23 +116,19 @@ def main():
     '''
              )
 
-    # Load data from the three folders
     data_russia = load_data('data/russia_export_eurostat')
     data_kyrgyzstan = load_data('data/kyrgyz_export_eurostat')
     data_armenia = load_data('data/armenia_export_eurostat')
-    # data_georgia = load_data('data/georgia_export_eurostat')
     data_uzbekistan = load_data('data/uzbek_export_eurostat')
 
     kyrgyzstan_state_stats = load_state_statistics_data(
         'data/kyrgyzstan_data/4.03.00.20 Географическое распределение импорта товаров..xlsx')
     uzbekistan_state_stats = preprocess_data_uzbekistan('data/uzbekistan_data/sdmx_data_1176.csv')
 
-    # Create tabs for each country
     tab_russia, tab_kyrgyzstan, tab_armenia, tab_kazakhstan, tab_uzbekistan, tab_overall_trends = st.tabs([
         'Russia',
         'Kyrgyzstan',
         'Armenia',
-        # 'Georgia',
         'Kazakhstan',
         'Uzbekistan',
         'Overall Trends'])
@@ -300,7 +272,6 @@ def main():
         st.dataframe(merged_data_reporter)
 
     with tab_overall_trends:
-        # Load and preprocess data for each country
         combined_data = []
         countries = ['Russia', 'Kyrgyzstan', 'Armenia',
             'Kazakhstan', 'Uzbekistan']
@@ -320,7 +291,6 @@ def main():
 
         combined_df = pd.concat(combined_data, ignore_index=True)
 
-        # Plotting the stacked bar chart for all countries including Russia
         fig = px.bar(
             combined_df,
             x='Month',
@@ -334,17 +304,13 @@ def main():
 
         st.plotly_chart(fig, use_container_width=True)
 
-# Helper function to visualize the data using Streamlit's stacked bar chart
 
 def visualize_stacked_bar_chart(data, country_name):
-    # Convert 'PERIOD' column to datetime
     data['PERIOD'] = pd.to_datetime(data['PERIOD'], format='%Y-%m', errors='coerce')
 
-    # Group data by 'REPORTER' and 'PERIOD' and sum the values for visualization
     grouped_df = data.groupby(['PERIOD', 'REPORTER'])['VALUE_IN_EUR'].sum().reset_index()
 
     if not grouped_df.empty:
-        # Plotting the data using Plotly for a stacked bar chart
         fig = px.bar(
             grouped_df,
             x='PERIOD',
@@ -354,8 +320,7 @@ def visualize_stacked_bar_chart(data, country_name):
             labels={'VALUE_IN_EUR': 'Value in EUR', 'PERIOD': 'Month', 'REPORTER': 'Country'},
         )
 
-        # Adding a vertical line for February 2022
-        feb_2022 = pd.Timestamp('2022-02-01')  # Define the vertical line position as datetime
+        feb_2022 = pd.Timestamp('2022-02-01')
         fig.update_layout(
             shapes=[
                 dict(

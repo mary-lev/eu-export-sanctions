@@ -7,7 +7,6 @@ import plotly.express as px
 
 st.set_page_config(page_title="Detecting Anomalies", page_icon="🌍", layout="wide")
 
-# Add sidebar
 with st.sidebar:
     st.markdown('''
     ### About
@@ -18,7 +17,6 @@ with st.sidebar:
     which is reflected in anomalous trade data patterns post-2022.
     ''')
 
-# Streamlit App for "Data Analysis"
 st.title("Detecting Anomalous Trade Pattern Changes")
 st.write('''Our analysis identified countries with unusual increases in EU export volumes using a systematic statistical approach:
 
@@ -68,11 +66,6 @@ The timing of the export surges coincides closely with the implementation of san
 So this trend analysis allows us to identify anomalies and provide a list of countries to investigate [further](/Visualization).
 ''')
 
-# Data Processing and Visualization
-
-# Step 1: Load and combine data files
-
-# Use @st.cache_data to cache the data loading
 @st.cache_data
 def load_data():
     
@@ -82,10 +75,8 @@ def load_data():
     return data
 
 data = load_data()
-# Step 2: Extract year information and filter relevant data
 data['YEAR'] = data['PERIOD'].str[-4:].astype(int)
 
-# Remove rows where 'YEAR' is NaN
 data = data.dropna(subset=['YEAR'])
 data['YEAR'] = data['YEAR'].astype(int)
 MIN_EXPORT_VOLUME = 100000000
@@ -98,7 +89,7 @@ pivot_data = data.pivot_table(
 pivot_data.columns = pivot_data.columns.astype(int)
 
 # Step 4: Calculate year-over-year growth percentages
-for year in range(2010, 2023):  # Adjust range based on your data
+for year in range(2010, 2023):
     if year + 1 in pivot_data.columns:
         pivot_data[f'GROWTH_{year}_{year+1}'] = ((pivot_data[year + 1] - pivot_data[year]) / pivot_data[year].replace(0, np.nan)) * 100
 
@@ -111,9 +102,6 @@ pivot_data['STD_PREV_GROWTH'] = pivot_data[growth_cols].std(axis=1)
 # Calculate Z-score for the growth from 2021 to 2022
 pivot_data['Z_SCORE_2021_2022'] = (pivot_data['GROWTH_2021_2022'] - pivot_data['MEAN_PREV_GROWTH']) / pivot_data['STD_PREV_GROWTH']
 
-# MIN_EXPORT_VOLUME = st.sidebar.slider(
-#     "Minimum Export Volume (EUR)", min_value=0, max_value=1000000, step=5000, value=100000
-# )
 
 # Consider growth significant if Z-score > 1.96 (95% confidence interval) and growth > 50%
 significant_growth_countries = pivot_data[
@@ -122,29 +110,23 @@ significant_growth_countries = pivot_data[
     (pivot_data[2022] > MIN_EXPORT_VOLUME)  # Ensure export volume in 2022 is significant
 ]
 
-
 # Remove infinite and NaN values resulting from division by zero
 significant_growth_countries = significant_growth_countries.replace([np.inf, -np.inf], np.nan).dropna(subset=['Z_SCORE_2021_2022'])
 significant_growth_countries = significant_growth_countries.sort_values('Z_SCORE_2021_2022', ascending=False)
 
-# Display the results
 st.subheader("Countries with Significant Growth in Exports from EU (2021-2022)")
 st.write('''
 The following countries exhibited statistically significant growth in exports from the EU from 2021 to 2022 (Z-score > 1.96 and growth > 50%):
 ''')
 
-# Reset index to include 'PARTNER' as a column
 significant_growth_countries = significant_growth_countries.reset_index()
 
-# Select relevant columns to display
 display_columns = ['PARTNER', 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 'GROWTH_2019_2020', 'GROWTH_2020_2021', 'GROWTH_2021_2022', 'MEAN_PREV_GROWTH', 'STD_PREV_GROWTH', 'Z_SCORE_2021_2022']
 
 st.dataframe(significant_growth_countries[display_columns].round(2))
 
-# Optional: Add a visualization
 st.subheader("Visualization of Export Growth Rates (2021-2022)")
 
-# Create a bar chart of growth rates for significant countries
 fig = px.bar(
     significant_growth_countries,
     x='PARTNER',

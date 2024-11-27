@@ -5,7 +5,6 @@ from rdflib import Graph, Namespace, Literal, RDF, URIRef
 from rdflib.namespace import XSD, DCTERMS
 import urllib.parse
 
-# Define namespaces
 EX = Namespace("https://sanctions.streamlit.app/ns#")
 QB = Namespace("http://purl.org/linked-data/cube#")
 WIKIDATA = Namespace("http://www.wikidata.org/entity/")
@@ -15,11 +14,9 @@ PROV = Namespace("http://www.w3.org/ns/prov#")
 SCHEMA = Namespace("http://schema.org/")
 FOAF = Namespace("http://xmlns.com/foaf/0.1/")
 
-# Initialize graphs
 g = Graph()
 metadata_graph = Graph()
 
-# Bind namespaces for both graphs
 g.bind("ex", EX)
 g.bind("qb", QB)
 g.bind("dct", DCTERMS)
@@ -36,20 +33,15 @@ metadata_graph.bind("prov", PROV)
 metadata_graph.bind("schema", SCHEMA)
 metadata_graph.bind("foaf", FOAF)
 
-# Define the folder path where the CSV files are stored
 folder_path = 'data/armenia_export_eurostat'
 
-# Create an empty DataFrame to store combined data
 combined_df = pd.DataFrame()
 
-# Loop through all CSV files in the folder and append them to the combined DataFrame
 for file in glob.glob(os.path.join(folder_path, '*.csv')):
     df = pd.read_csv(file)
     combined_df = pd.concat([combined_df, df], ignore_index=True)
 
-print(combined_df)
 
-# Function to map country names to Wikidata URIs
 def get_country_uri(country_name):
     country_map = {
         "Austria": WIKIDATA['Q40'],
@@ -137,29 +129,23 @@ metadata_graph.add((URIRef("http://purl.org/NET/mediatypes/text/turtle"), RDF.ty
 metadata_graph.add((WIKIDATA["Q458"], RDF.type, URIRef("http://xmlns.com/foaf/0.1/Agent")))
 metadata_graph.add((WIKIDATA["Q458"], FOAF.name, Literal("European Union", datatype=XSD.string)))
 
-# License
 license_uri = URIRef("https://creativecommons.org/licenses/by/4.0/")
 metadata_graph.add((dataset_uri, DCTERMS.license, license_uri))
 
-
-# Iterate over rows
 for idx, row in combined_df.iterrows():
     print(row)
     obs_uri = EX[f'observation{idx+1}']
     g.add((obs_uri, RDF.type, QB.Observation))
 
-    # Use standard URIs where possible
     reporter_uri = get_country_uri(row['REPORTER'])
     partner_uri = get_country_uri(row['PARTNER'])
     flow_uri = URIRef(GR['Sell']) if row['FLOW'] == 'EXPORT' else URIRef(GR['Buy'])  # Use GoodRelations to denote type of action
 
-    # Add triples to the graph
     g.add((obs_uri, EX.reporter, reporter_uri))
     g.add((obs_uri, EX.partner, partner_uri))
     g.add((obs_uri, EX.flow, flow_uri))
     g.add((dataset_uri, DCAT.hasPart, obs_uri))  # Link dataset to observation
 
-    # Convert period to xsd:gYearMonth format
     try:
         period = pd.to_datetime(row['PERIOD'], errors='coerce').strftime('%Y-%m')
         if pd.isna(period):
@@ -168,17 +154,14 @@ for idx, row in combined_df.iterrows():
     except Exception as e:
         print(f"Error parsing date: {e}")
 
-    # Add the value in EUR
     try:
         value = float(row['VALUE_IN_EUR'])
         g.add((obs_uri, EX.valueInEUR, Literal(value, datatype=XSD.decimal)))
     except ValueError:
         print(f"Invalid VALUE_IN_EUR: {row['VALUE_IN_EUR']}")
 
-# Serialize the metadata graph to Turtle format
 metadata_graph.serialize(destination='data/ttl/eurostat_metadata.ttl', format='turtle')
 metadata_graph.serialize(destination='data/ttl/eurostat_metadata.json', format='json-ld')
 
-# Serialize the graph with full dataset to Turtle format
 g.serialize(destination='data/ttl/eurostat_data.ttl', format='turtle')
 g.serialize(destination='data/ttl/eurostat_data.json', format='json-ld')

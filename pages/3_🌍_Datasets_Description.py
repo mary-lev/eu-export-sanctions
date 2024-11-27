@@ -1,14 +1,12 @@
 import streamlit as st
 import pandas as pd
 
-# Set the page configuration
 st.set_page_config(
     page_title="Trade Data Analysis",
     page_icon="📊",
     layout="wide"
 )
 
-# Sidebar
 with st.sidebar:
     st.title("Navigation")
     st.markdown('''
@@ -19,10 +17,8 @@ with st.sidebar:
     ''')
     st.write("Use the tabs above to explore different sections.")
 
-# Main Content
 st.title("📊 Trade Data Analysis")
 
-# Tabs for structuring information
 tab1, tab3, tab4, tab5 = st.tabs([
     "Datasets Overview",
     "Legal & Ethical Analysis",
@@ -33,7 +29,6 @@ tab1, tab3, tab4, tab5 = st.tabs([
 # ------------------- Datasets Overview -------------------
 with tab1:
     st.write("### Datasets Overview")
-    # Dataset information
     datasets = [
         {
             "Name": "Eurostat Trade Data",
@@ -93,7 +88,6 @@ with tab1:
 
     df = pd.DataFrame(datasets)
 
-    # Display HTML-enabled table
     st.markdown(
         df.to_html(escape=False, index=False),
         unsafe_allow_html=True
@@ -242,7 +236,6 @@ with tab4:
     })
     st.dataframe(eurostat_sample)
 
-    # Repeat similar structure for other datasets
     st.subheader("2. Kyrgyzstan State Trade Statistics")
     st.write('''
     **Format and Structure:**
