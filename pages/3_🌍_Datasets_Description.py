@@ -59,7 +59,7 @@ with tab1:
             "Description": "Data on Armenia's external trade activities (imports and exports).",
             "Time Period": "2017 - 2023",
             "Variables": "Trade values in thousand USD, Trade partners (countries), Monthly data",
-            "Format": "CSV",
+            "Format": "CSV, JSON-L, Parquet",
             "License": '<a href="https://opendatacommons.org/licenses" target="_blank">Other (Public Domain)</a>'
         },
         {
@@ -67,8 +67,8 @@ with tab1:
             "Source": '<a href="https://stat.uz/en/official-statistics/merchandise-trade" target="_blank">National Statistical Committee of the Republic of Uzbekistan</a>',
             "Description": "Data on Uzbekistan's trade activities with various partners.",
             "Time Period": "2010 - 2023",
-            "Variables": "Trade values in thousand USD, Trade partners (countries), Yearly data",
-            "Format": "CSV",
+            "Variables": "Trade values in thousand USD, Trade partners (countries), Yearly and monthly data",
+            "Format": "XLSX, PDF, CSV, JSON (API), XML (API)",
             "License": "Not specified"
         },
         {
@@ -134,9 +134,7 @@ with tab1:
     st.subheader("Quality and Accuracy Assessment")
     st.write('''
     - **Completeness**:
-        - **Time Period Variations**:
-            - Datasets cover varying time periods, making it challenging to align them perfectly for analysis.
-            - For instance, Eurostat data spans **2010 - 2024**, while Armenia's data is available from **2017 - 2023**, and Kazakhstan's data covers **2021 - 2024**.
+        - **Time Period Variations**. Datasets cover varying time periods, making it challenging to align them perfectly for analysis. For instance, Eurostat data spans **2010 - 2024**, while Armenia's data is available from **2017 - 2023**, and Kazakhstan's data covers **2021 - 2024**.
         - **Data Gaps**. Some datasets lack monthly granularity, limiting the depth of temporal analysis.
     - **Accuracy**:
         - **Currency and Units Discrepancies**. Eurostat reports trade values in **euros (EUR)**, while state agencies report in **thousand US dollars (USD)**. This requires careful currency conversion and unit adjustments to ensure accurate comparisons.
@@ -257,153 +255,149 @@ with tab4:
     - **Data Consistency:** High consistency due to standardized reporting.
     - **Challenges:**
         - **Language Variations:** Some country names appear in different languages (e.g., 'Arménie' for Armenia), requiring standardization.
-        - **Large File Sizes:** May require efficient data handling techniques.
-
-    **Preprocessing Steps:**
-
-    - Standardize country names using ISO country codes.
-    - Parse `PERIOD` strings into datetime objects.
-    - Filter data for relevant flows and partner countries.
     ''')
+    import pandas as pd
+    eurostat_sample = pd.DataFrame({
+        'REPORTER': ['Germany', 'France'],
+        'PARTNER': ['Kyrgyzstan', 'Armenia'],
+        'PRODUCT': ['Total', 'Total'],
+        'FLOW': ['EXPORT', 'EXPORT'],
+        'PERIOD': ['Aug. 2023', 'Aug. 2023'],
+        'VALUE_IN_EUR': [5000000, 3000000]
+    })
+    st.dataframe(eurostat_sample)
 
     # Repeat similar structure for other datasets
     st.subheader("2. Kyrgyzstan State Trade Statistics")
     st.write('''
     **Format and Structure:**
 
-    - **Format:** XLSX (Excel) files.
+    - **Format:** Single XLSX (Excel) file ("4.03.00.20 Географическое распределение импорта товаров.xlsx").
     - **Structure:** Custom formats with merged cells and non-standard layouts.
 
     **Data Characteristics:**
 
-    - **Temporal Coverage:** 2008 - 2023.
+    - **Temporal Coverage:** 1994 - 2023.
     - **Granularity:** Yearly data.
     - **Variables:**
         - Trade values in thousand USD.
-        - Partner countries, sometimes grouped by regions.
+        - Partner countries, additionally grouped by regions.
 
     **Metadata and Documentation:**
 
-    - **Availability:** Limited metadata.
-    - **License Information:** Listed as Creative Commons Attribution, but detailed terms may not be explicitly provided.
+    - **Availability:** No metadata provided.
+    - **License Information:** No explicit licensing terms.
 
     **Technical Considerations:**
 
     - **Challenges:**
-        - **Non-Standard Formats:** Requires manual inspection to identify data tables.
-        - **Currency and Units:** Values are in thousand USD, needing conversion.
-
-    **Preprocessing Steps:**
-
-    - Parse Excel files using libraries like `pandas`.
-    - Normalize headers.
-    - Convert currencies and adjust units.
+        - Non-Standard Format requires manual inspection to identify data tables.
+        - Missing values represented as '-', requiring cleaning.
+        - Values are in thousand USD, needing conversion.
     ''')
 
-    # Continue for the remaining datasets (Armenian, Uzbek, Kazakh, Russian data)
-    # Due to space constraints, I'll summarize the remaining datasets
+    data = {
+        "4.03.00.20: Geographic distribution of imports of goods": ["Total", "The EU", "CIS", "SCO", "EAEU", "Europe", "Austria", "Albania", "Andorra", "Belarus"],
+        "1994": [317004.7, 20939.5, 209275.8, "-", "-", 98821.0, 513.3, "-", "-", 2576.6],
+        "1995": [522334.9, 44721.2, 353284.4, "-", "-", 171661.6, 1324.8, "-", "-", 5034.0],
+        "1996": [837688.2, 113532.3, 485310.2, "-", "-", 322572.3, 9817.9, "-", "-", 6104.0],
+        "1997": [709304.9, 106643.2, 432688.8, "-", "-", 316654.9, 4065.5, "-", "-", 10260.6]
+    }
+    df = pd.DataFrame(data)
+    st.dataframe(df)
 
     st.subheader("3. Armenian State Trade Statistics")
     st.write('''
-    **Format and Structure:** CSV files with variables like `country`, `year`, `import_consigment`.
+    **Format and Structure:** Single CSV file with variables like `country`, `year`, `import_consigment`.
+    No metadata provided.
 
     **Challenges:**
 
     - Missing values represented as '-', requiring cleaning.
+    - Lack of metadata necessitates inference of variable meanings.
     - Currency conversion from thousand USD to EUR.
-
-    **Preprocessing Steps:**
-
-    - Replace placeholders with `NaN`.
-    - Convert data types and currencies.
-    - Standardize date formats.
     ''')
+    data = {
+        "country": ["Afghanistan"] * 8,
+        "export": ["-", 573.4, 210.6, 196.6, 1081.8, 123.1, 807.2, 3326.0],
+        "import_consignment": ["-", "-", "-", "-", "-", "-", "-", 0.2],
+        "import_origin": [0.1, "-", "-", "-", "-", "-", "-", 0.3],
+        "timeperiod": [5, 7, 8, 9, 10, 11, 12, "Year"],
+        "year": [2020] * 8
+    }
+
+    df_afghanistan = pd.DataFrame(data)
+    st.dataframe(df_afghanistan)
 
     st.subheader("4. Uzbekistan State Trade Statistics")
     st.write('''
-    **Format and Structure:** CSV files, may require reshaping from wide to long format.
+    **Format and Structure:** Single CSV file, using "Commodity nomenclature foreign economic activities Republic of Uzbekistan".
 
-    **Challenges:**
-
-    - Lack of metadata necessitates inference of variable meanings.
-    - Currency conversion needed.
-
-    **Preprocessing Steps:**
-
-    - Reshape data using `melt` functions.
-    - Convert units and currencies.
-    - Standardize country names.
+    **Challenges:** Limited metadata & currency conversion needed.
     ''')
+    uz_data = {
+        "Code": [192, 384, 598, 798],
+        "Klassifikator": ["Kuba", "Kot D'ivuar", "Papua - Yangi Gvineya", "Tuvalu"],
+        "Klassifikator_ru": ["Куба", "Кот-д'Ивуар", "Папуа-Новая Гвинея", "Тувалу"],
+        "Klassifikator_en": ["Cuba", "Côte d’Ivoire", "Papua New Guinea", "Tuvalu"],
+        "2010": [0.03, 10.0, 0.0, 0.0],
+        "2011": [1.67, 40.0, 0.0, 0.0],
+        "2012": [0.0, 50.5, 0.0, 0.0],
+        "2013": [0.0, 150.0, 0.0, 0.0],
+        "2014": [0.0, 106.0, 0.0, 0.0],
+        "2015": [0.0, 31.5, 0.0, 0.0],
+        "2016": [0.69, 21.72, 0.0, 0.0],
+        "2017": [0.67, 29.87, 0.04, 0.0],
+        "2018": [6.19, 33.63, 0.0, 0.0],
+        "2019": [11791.59, 85.29, 0.0, 0.0],
+        "2020": [17.13, 69.76, 0.0, 0.0],
+        "2021": [18.2, 641.96, 0.0, 0.0],
+        "2022": [59.1, 1772.81, 0.0, 0.0],
+        "2023": [123.5, 1669.4, 43.0, 0.5]
+    }
+    df_trade = pd.DataFrame(uz_data)
+    st.dataframe(df_trade)
 
     st.subheader("5. Kazakhstan State Trade Statistics")
     st.write('''
-    **Format and Structure:** XLSX files with non-standard formats.
+    **Format and Structure:** Yearly XLSX files in Russian with non-standard formats.
+    No metadata or licensing information provided.
 
     **Challenges:**
 
     - Data extraction from non-standard Excel files.
     - Possible language barriers with Russian or Kazakh headers.
-
-    **Preprocessing Steps:**
-
-    - Use `pandas` to parse Excel files.
-    - Translate headers if necessary.
-    - Convert trade values to consistent units and currencies.
     ''')
+    kz_data = {
+        "Наименование области": ["Всего", "Страны СНГ", "Страны ЕАЭС", "Армения", "Беларусь", "Кыргызстан"],
+        "Товарооборот": [101736459.9, 33237916.5, 26586658.8, 20817.4, 891029.2, 1050532.2],
+        "Товарооборот (%)": [100.0, 32.7, 26.1, 0.0, 0.9, 1.0],
+        "Экспорт": [60321024.4, 12493485.9, 7814129.5, 10332.8, 110295.8, 674755.2],
+        "Экспорт (%)": [100.0, 20.7, 13.0, 0.0, 0.2, 1.1],
+        "Импорт": [41415435.5, 20744430.6, 18772529.3, 10484.6, 780733.5, 375777.0],
+        "Импорт (%)": [100.0, 50.1, 45.3, 0.0, 1.9, 0.9]
+    }
+    df_kz = pd.DataFrame(kz_data)
+    st.dataframe(df_kz)
 
     st.subheader("6. Russian Trade Data")
     st.write('''
     **Format and Structure:** XLSX/XLS files with aggregated data by regions.
 
-    **Challenges:**
-
-    - Limited granularity limits detailed analysis.
-    - Access restrictions and language barriers.
-
-    **Preprocessing Steps:**
-
-    - Translate data from Russian to English.
-    - Extract relevant aggregated data.
-    - Ensure compliance with attribution requirements.
+    **Challenges:** Limited granularity, access restrictions and language barriers.
     ''')
+    ru_data = {
+        "Группа стран": ["Весь мир", "ЕВРОПА", "АЗИЯ", "АФРИКА", "АМЕРИКА", "ОКЕАНИЯ"],
+        "Экспорт 2022 (млрд. долл. США)": [592.5, 265.6, 290.4, 14.8, 20.5, 0.3],
+        "Экспорт 2023 (млрд. долл. США)": [425.1, 84.9, 306.6, 21.2, 12.2, 0.0],
+        "Темп роста экспорта (%)": [71.7, 32.0, 105.6, 142.9, 59.6, 2.5],
+        "Импорт 2022 (млрд. долл. США)": [255.3, 89.5, 145.2, 3.1, 16.8, 0.4],
+        "Импорт 2023 (млрд. долл. США)": [285.1, 78.5, 187.5, 3.4, 15.0, 0.2],
+        "Темп роста импорта (%)": [111.7, 87.7, 129.2, 108.6, 89.0, 41.8]
+    }
+    df_ru = pd.DataFrame(ru_data)
+    st.dataframe(df_ru)
 
-    st.subheader("Integration Challenges and Solutions")
-    st.write('''
-    **Data Harmonization:**
-
-    - Standardize country names using ISO codes.
-    - Align date formats to ISO 8601.
-    - Convert all trade values to EUR and adjust units.
-
-    **Handling Missing Metadata:**
-
-    - Infer variable meanings based on context.
-    - Create internal documentation for assumptions.
-
-    **Data Quality Assurance:**
-
-    - Cross-validate with alternative sources where possible.
-    - Implement checks for inconsistent data.
-
-    **Data Transformation:**
-
-    - Reshape data to consistent formats suitable for analysis.
-    - Merge datasets on common keys with careful handling of temporal granularity differences.
-
-    **Language Barriers:**
-
-    - Use translation tools for non-English data.
-    - Ensure consistent encoding with UTF-8.
-
-    **Legal and Ethical Compliance:**
-
-    - Be cautious with datasets lacking clear licenses.
-    - Include required attributions, especially for Russian data.
-    ''')
-
-    st.write('''
-    **Note:** For a more detailed technical analysis, additional information on data samples, preprocessing steps, exchange rates used, and data limitations would be helpful.
-    ''')
 
 # ------------------- Sustainability -------------------
 with tab5:
