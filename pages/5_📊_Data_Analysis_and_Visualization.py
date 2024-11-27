@@ -131,7 +131,7 @@ def main():
     st.write('''
     This analysis aims to answer the question: **How well does EU data match with available open data from Kyrgyzstan and Russia, and what discrepancies exist that could indicate sanction circumvention?**
 
-    After the onset of sanctions on Russia due to the invasion of Ukraine, there have been significant shifts in trade patterns involving intermediary countries like Kyrgyzstan, Armenia, and Georgia. By analyzing trade data from 2019 to 2024, we seek to:
+    After the onset of sanctions on Russia due to the invasion of Ukraine, there have been significant shifts in trade patterns involving intermediary countries like Kyrgyzstan, Armenia. By analyzing trade data from 2019 to 2024, we seek to:
     - Determine whether there has been an increase in exports from the EU to these intermediary countries.
     - Compare Eurostat's export data to local statistics.
     - Highlight discrepancies in reported trade values that could suggest efforts to circumvent international sanctions.
@@ -144,7 +144,7 @@ def main():
     data_russia = load_data('data/russia_export_eurostat')
     data_kyrgyzstan = load_data('data/kyrgyz_export_eurostat')
     data_armenia = load_data('data/armenia_export_eurostat')
-    data_georgia = load_data('data/georgia_export_eurostat')
+    # data_georgia = load_data('data/georgia_export_eurostat')
     data_uzbekistan = load_data('data/uzbek_export_eurostat')
 
     kyrgyzstan_state_stats = load_state_statistics_data(
@@ -152,11 +152,11 @@ def main():
     uzbekistan_state_stats = preprocess_data_uzbekistan('data/uzbekistan_data/sdmx_data_1176.csv')
 
     # Create tabs for each country
-    tab_russia, tab_kyrgyzstan, tab_armenia, tab_georgia, tab_kazakhstan, tab_uzbekistan, tab_overall_trends = st.tabs([
+    tab_russia, tab_kyrgyzstan, tab_armenia, tab_kazakhstan, tab_uzbekistan, tab_overall_trends = st.tabs([
         'Russia',
         'Kyrgyzstan',
         'Armenia',
-        'Georgia',
+        # 'Georgia',
         'Kazakhstan',
         'Uzbekistan',
         'Overall Trends'])
@@ -268,10 +268,6 @@ def main():
 
         st.dataframe(comparison_data)
 
-    with tab_georgia:
-        combined_df_filtered = preprocess_data(data_georgia)
-        visualize_stacked_bar_chart(combined_df_filtered, 'Georgia')
-
     with tab_kazakhstan:
         data_kazakhstan = load_data('data/kazahstan_export_eurostat')
         combined_df_filtered = preprocess_data_kazakhstan(data_kazakhstan)
@@ -307,11 +303,11 @@ def main():
         # Load and preprocess data for each country
         combined_data = []
         countries = ['Russia', 'Kyrgyzstan', 'Armenia',
-            'Georgia', 'Kazakhstan', 'Uzbekistan']
+            'Kazakhstan', 'Uzbekistan']
         data_files = [data_russia, data_kyrgyzstan, data_armenia,
-            data_georgia, data_kazakhstan, data_uzbekistan]
+            data_kazakhstan, data_uzbekistan]
         preprocess_funcs = [preprocess_data, preprocess_data, preprocess_data,
-            preprocess_data, preprocess_data_kazakhstan, preprocess_data]
+            preprocess_data_kazakhstan, preprocess_data]
 
         for country, data, preprocess in zip(countries, data_files, preprocess_funcs):
             preprocessed_data = preprocess(data)
@@ -330,7 +326,7 @@ def main():
             x='Month',
             y='Export Value',
             color='Country',
-            title='Overall Export Trends from EU to Russia, Kyrgyzstan, Armenia, Georgia, Uzbekistan, and Kazakhstan (2019 - 2024)',
+            title='Overall Export Trends from EU to Russia, Kyrgyzstan, Armenia, Uzbekistan, and Kazakhstan (2019 - 2024)',
             labels={'Month': 'Month',
                 'Export Value': 'Export Value (EUR)', 'Country': 'Country'}
         )
