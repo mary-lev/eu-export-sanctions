@@ -99,17 +99,6 @@ with tab1:
         unsafe_allow_html=True
     )
 
-    st.subheader("Eurostat Data Sample")
-    eurostat_sample = pd.DataFrame({
-        'REPORTER': ['Germany', 'France'],
-        'PARTNER': ['Kyrgyzstan', 'Armenia'],
-        'PRODUCT': ['Total', 'Total'],
-        'FLOW': ['EXPORT', 'EXPORT'],
-        'PERIOD': ['Aug. 2023', 'Aug. 2023'],
-        'VALUE_IN_EUR': [5000000, 3000000]
-    })
-    st.dataframe(eurostat_sample)
-
     st.subheader("Datasets Provenance and Typology")
     st.write('''
     - **Provenance**:
@@ -210,11 +199,6 @@ with tab3:
 
 # ------------------- Technical Details -------------------
 with tab4:
-    st.header("Technical Analysis")
-    st.write('''
-    In this section, we provide a detailed technical analysis of the initial datasets used in the project. This includes an examination of data formats, structures, consistency, metadata availability, data integration challenges, and preprocessing steps required for effective use.
-    ''')
-
     st.subheader("1. Eurostat Trade Data")
 
     st.write('''
