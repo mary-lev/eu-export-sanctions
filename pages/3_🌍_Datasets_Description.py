@@ -409,18 +409,11 @@ with tab5:
 
     - **Manual Data Collection.** The datasets are currently downloaded manually in CSV or XLSX formats from state websites. This process is time-consuming and prone to human error. Manual updates are not scalable for regular data refreshes.
 
-    - **Accessibility of Russian Data.** Russian state data is only accessible through a Russian VPN, making it difficult to obtain from Europe due to regional restrictions and potential legal considerations. Reliance on such restricted access poses significant sustainability risks, as data availability can change without notice.
+    - **Accessibility of Russian Data.** Russian state data is only accessible through a Russian VPN, making it difficult to obtain from Europe due to regional restrictions and potential legal considerations. Reliance on such restricted access poses significant sustainability risks, as data availability can change or disappear without notice.
 
-    **Implications for Sustainability:**
-
-    - **Data Currency and Updates.** The inability to automate data retrieval means that datasets may become outdated if not manually refreshed regularly. Delays in updating data can affect the accuracy and relevance of the analysis.
-
-    - **Data Reliability and Continuity.** Dependence on manual downloads from state websites may be impacted by website changes, data removal, or access restrictions. There is a risk of data sources becoming unavailable, which would hinder ongoing analysis.
+    **Implications for Sustainability.** Dependence on manual downloads from state websites may be impacted by website changes, data removal, or access restrictions. There is a risk of data sources becoming unavailable, which would hinder ongoing analysis.
 
     **Limitations Acknowledgment.** Recognize that despite mitigation efforts, some sustainability challenges may persist due to factors beyond control, such as geopolitical events or changes in data publication policies. Acknowledge these limitations in the analysis and consider them when interpreting results.
-
-    **Conclusion.**  While there are significant challenges to the sustainability of the datasets due to manual collection methods and accessibility issues, particularly with Russian data, proactive strategies can help mitigate some of these concerns. By exploring alternative data sources, automating data retrieval where possible, and maintaining thorough documentation, the project can enhance the sustainability and reliability of its datasets.
-    Ongoing evaluation of data sources and adaptability in data collection approaches will be essential to maintain the project's relevance and impact over time.
     ''')
 
 st.write("---")
