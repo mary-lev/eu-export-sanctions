@@ -65,16 +65,40 @@ st.write('''
          understand the scale of potential sanction circumvention, and explore whether 
          these changes can be substantiated by the data. 
 
-    The questions we explore in this project are:
+    ### Research Questions:
 
     - What trends and changes have occurred in imports and exports to and from the EU since February 2022, 
          particularly through intermediary countries like Kyrgyzstan and Armenia? 
          Are these changes statistically significant, and can they be linked to the timeline of sanctions?
-    - How well does EU data match with available open data from Kyrgyzstan and Russia, 
+    - How well does EU data match with available open data from Kyrgyzstan, Armenia, Uzbekistan, Kazakhstan and Russia, 
          and what discrepancies exist that could indicate sanction circumvention?
     
-    These questions are essential to evaluate the true impact of sanctions and to determine 
-         how effective they have been in limiting Russia's economic activity. 
-         We hope that our analysis can shed light on the broader implications of these sanction policies 
-         and provide insights for policymakers.
+    ### Research Hypothesis
+    After the implementation of EU sanctions in February 2022, there are anomalous trade patterns and a systematic pattern of "missing trade" for some EU trading partners where:
+
+    - Independent variable: Time period (pre vs. post February 2022 sanctions)
+
+    - Dependent variables:
+        - Year-over-year growth rates of EU exports to some countries
+        - Trade volume thresholds (minimum 100 million EUR in 2022)
+        - Statistical significance measures:
+            - Z-scores of growth rates (relative to 2010-2021 baseline)
+            - Standard deviations from historical means
+
+    - Expected relationships:
+        1. Statistical significance: Growth rates will show Z-scores > 1.96 (95% confidence level)
+        2. Magnitude: Year-over-year growth rates will exceed 50% compared to historical averages
+        3. Volume significance: Export volumes will exceed 100 million EUR in 2022
+        4. Geographic pattern: These anomalies will be concentrated in countries with:
+            - Geographic proximity to Russia
+            - Established economic ties with both EU and Russia
+        5. Discrepancy patterns: The gap between EU-reported exports and partner-reported imports will increase significantly post-sanctions. 
+
+    - Control metrics:
+        - Historical baseline (2010-2021) mean growth rates
+        - Standard deviation of historical growth rates
+        - Pre-sanctions trade volumes and discrepancy levels
+    
+    By identifying and analyzing these anomalies, we seek to contribute to the assessment of the effectiveness of EU sanctions and offer insights that could inform policy decisions aimed at preventing sanctions circumvention.
+
     ''')
