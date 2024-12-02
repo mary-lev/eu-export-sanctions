@@ -1,13 +1,11 @@
 import streamlit as st
 
-# Set the page config
 st.set_page_config(
     page_title='Introduction to the Project',
     page_icon=':earth_americas:',
-    layout='wide'  # Optional: makes the page wide
+    layout='wide'
 )
 
-# Add sidebar
 with st.sidebar:
 
     st.markdown('''
@@ -23,8 +21,6 @@ with st.sidebar:
 
     _[Maria Levchenko](mailto:marylevchenko@gmail.com), 2024_
     ''')
-    
-
      
 st.title(':earth_americas: The Missing Trade: Export-Import Data Discrepancies Under Sanctions Against Russia')
 
@@ -43,7 +39,6 @@ st.write('''
          including Eurostat and local data from Kyrgyzstan and Russia?
     ''')
 
-    # Display images in a grid format to save space
 cols = st.columns(4)
 images = [
         ('images/1.png', 'Growth of Exports from Germany to Kyrgyzstan'),
@@ -56,7 +51,6 @@ images = [
         ('images/8.png', 'Growth of Exports from EU to Kyrgyzstan'),
     ]
 
-# Loop through images and display them in grid
 for idx, (img_path, caption) in enumerate(images):
     cols[idx % 4].image(img_path, caption=caption, use_container_width=True)
 
