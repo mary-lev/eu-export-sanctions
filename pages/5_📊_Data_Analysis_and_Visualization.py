@@ -32,9 +32,7 @@ exchange_rates = {
 def load_state_statistics_data(file_path):
     xl = pd.ExcelFile(file_path)
     df = xl.parse(xl.sheet_names[0], header=None)
-
     df_cleaned = df.iloc[2:8, 2:]
-
     df_cleaned.columns = ['Category'] + \
         [str(year) for year in range(1994, 2024)]
 
@@ -109,10 +107,10 @@ def preprocess_data_uzbekistan(filename):
 
 
 def main():
-    st.title('EU Export Analysis to Russia, Kyrgyzstan, and Armenia')
+    st.title('EU Export Analysis to Russia, Kyrgyzstan, Kazakhstan, Uzbekistan, and Armenia')
 
     st.write('''
-    This analysis aims to answer the question: **How well does EU data match with available open data from Kyrgyzstan and Russia, and what discrepancies exist that could indicate sanction circumvention?**
+    This analysis aims to answer the question: **How well does EU data match with available open data from Kyrgyzstan, Uzbekistan, Kazakhstan, and Armenia, and what discrepancies exist that could indicate sanction circumvention?**
 
     After the onset of sanctions on Russia due to the invasion of Ukraine, there have been significant shifts in trade patterns involving intermediary countries like Kyrgyzstan, Armenia. By analyzing trade data from 2019 to 2024, we seek to:
     - Determine whether there has been an increase in exports from the EU to these intermediary countries.
