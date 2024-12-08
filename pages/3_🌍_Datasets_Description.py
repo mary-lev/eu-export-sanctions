@@ -32,7 +32,7 @@ with tab1:
     datasets = [
         {
             "Name": "Eurostat Trade Data",
-            "Source": '<a href="https://ec.europa.eu/eurostat/web/international-trade-in-goods/data/database" target="_blank">Eurostat</a>',
+            "Source": '<a href="https://ec.europa.eu/eurostat/cache/metadata/en/ext_go_detail_sims.htm" target="_blank">Eurostat</a>',
             "Description": "Official harmonized data on exports and imports between EU member states and with non-EU countries.",
             "Time Period": "2019 - 2024",
             "Variables": "Reporting country, Partner country, Product categories (HS codes), Trade flow (export/import), Value in EUR, Period (monthly)",

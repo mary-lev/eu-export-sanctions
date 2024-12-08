@@ -63,7 +63,7 @@ All the countries identified are neighbours or close to Russia, facilitating pot
 They have established economic relations with both the EU and Russia, making them viable intermediaries. 
 The timing of the export surges coincides closely with the implementation of sanctions against Russia in 2022.
 
-So this trend analysis allows us to identify anomalies and provide a list of countries to investigate [further](/Visualization).
+So this trend analysis allows us to identify anomalies and provide a list of countries to investigate [further](/Data_Analysis_and_Visualization).
 ''')
 
 @st.cache_data
