@@ -33,13 +33,43 @@ metadata_graph.bind("prov", PROV)
 metadata_graph.bind("schema", SCHEMA)
 metadata_graph.bind("foaf", FOAF)
 
-folder_path = 'data/armenia_export_eurostat'
+folders = {
+    "Armenia": 'data/armenia_export_eurostat',
+    "Russia": 'data/russia_export_eurostat',
+    "Kyrgyzstan": 'data/kyrgyz_export_eurostat',
+    "Uzbekistan": 'data/uzbek_export_eurostat',
+    "Kazakhstan": 'data/kazahstan_export_eurostat'
+}
 
-combined_df = pd.DataFrame()
+combined_dfs = []
 
-for file in glob.glob(os.path.join(folder_path, '*.csv')):
-    df = pd.read_csv(file)
-    combined_df = pd.concat([combined_df, df], ignore_index=True)
+def preprocess_period(df):
+    """
+    Standardizes the PERIOD column to a common format (YYYY-MM).
+    Handles cases like '201904-Apr. 2019' or 'Aug. 2024'.
+    """
+    # Check if PERIOD is in the format '201904-Apr. 2019'
+    if df['PERIOD'].str.contains(r'^\d{6}-').any():
+        # Extract the first six digits (YYYYMM) and convert to YYYY-MM
+        df['PERIOD'] = pd.to_datetime(df['PERIOD'].str.extract(r'^(\d{6})')[0], format='%Y%m').dt.strftime('%Y-%m')
+    elif df['PERIOD'].str.contains(r'^[A-Za-z]{3}\. \d{4}$').any():
+        # Parse periods like 'Aug. 2024' to YYYY-MM
+        df['PERIOD'] = pd.to_datetime(df['PERIOD'], format='%b. %Y').dt.strftime('%Y-%m')
+    else:
+        # Raise an error if an unknown format is encountered
+        raise ValueError(f"Unexpected PERIOD format in the data: {df['PERIOD'].iloc[0]}")
+    return df
+
+# Process each folder
+for country, folder_path in folders.items():
+    for file in glob.glob(os.path.join(folder_path, '*.csv')):
+        df = pd.read_csv(file)
+        df['COUNTRY'] = country  # Add a column for the country
+        df = preprocess_period(df)  # Standardize PERIOD format
+        combined_dfs.append(df)
+
+# Combine all data
+combined_df = pd.concat(combined_dfs, ignore_index=True)
 
 
 def get_country_uri(country_name):

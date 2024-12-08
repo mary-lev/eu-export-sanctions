@@ -127,6 +127,7 @@ def main():
     data_kyrgyzstan = load_data('data/kyrgyz_export_eurostat')
     data_armenia = load_data('data/armenia_export_eurostat')
     data_uzbekistan = load_data('data/uzbek_export_eurostat')
+    data_kazakhstan = load_data('data/kazahstan_export_eurostat')
 
     kyrgyzstan_state_stats = load_state_statistics_data(
         'data/kyrgyzstan_data/4.03.00.20 Географическое распределение импорта товаров..xlsx')
@@ -338,7 +339,6 @@ def main():
 
 
     with tab_kazakhstan:
-        data_kazakhstan = load_data('data/kazahstan_export_eurostat')
         combined_df_filtered = preprocess_data_kazakhstan(data_kazakhstan)
         visualize_stacked_bar_chart(combined_df_filtered, 'Kazakhstan')
 

@@ -1,33 +1,5 @@
 [
   {
-    "@id": "https://sanctions.streamlit.app/ns#catalog",
-    "@type": [
-      "http://www.w3.org/ns/dcat#Catalog"
-    ],
-    "http://purl.org/dc/terms/description": [
-      {
-        "@type": "http://www.w3.org/2001/XMLSchema#string",
-        "@value": "A catalog of datasets representing EU export information."
-      }
-    ],
-    "http://purl.org/dc/terms/publisher": [
-      {
-        "@id": "http://www.wikidata.org/entity/Q458"
-      }
-    ],
-    "http://purl.org/dc/terms/title": [
-      {
-        "@type": "http://www.w3.org/2001/XMLSchema#string",
-        "@value": "EU Export Dataset Catalog"
-      }
-    ],
-    "http://www.w3.org/ns/dcat#dataset": [
-      {
-        "@id": "https://sanctions.streamlit.app/ns#dataset/eurostat_exports"
-      }
-    ]
-  },
-  {
     "@id": "http://www.wikidata.org/entity/Q458",
     "@type": [
       "http://xmlns.com/foaf/0.1/Agent",
@@ -54,6 +26,12 @@
       {
         "@id": "https://sanctions.streamlit.app/data/ttl/eurostat_data.ttl"
       }
+    ]
+  },
+  {
+    "@id": "http://purl.org/NET/mediatypes/text/turtle",
+    "@type": [
+      "http://purl.org/dc/terms/MediaTypeOrExtent"
     ]
   },
   {
@@ -124,9 +102,31 @@
     ]
   },
   {
-    "@id": "http://purl.org/NET/mediatypes/text/turtle",
+    "@id": "https://sanctions.streamlit.app/ns#catalog",
     "@type": [
-      "http://purl.org/dc/terms/MediaTypeOrExtent"
+      "http://www.w3.org/ns/dcat#Catalog"
+    ],
+    "http://purl.org/dc/terms/description": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#string",
+        "@value": "A catalog of datasets representing EU export information."
+      }
+    ],
+    "http://purl.org/dc/terms/publisher": [
+      {
+        "@id": "http://www.wikidata.org/entity/Q458"
+      }
+    ],
+    "http://purl.org/dc/terms/title": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#string",
+        "@value": "EU Export Dataset Catalog"
+      }
+    ],
+    "http://www.w3.org/ns/dcat#dataset": [
+      {
+        "@id": "https://sanctions.streamlit.app/ns#dataset/eurostat_exports"
+      }
     ]
   }
 ]
