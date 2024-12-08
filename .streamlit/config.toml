@@ -3,5 +3,3 @@
 # Set the new main entry point for your app.
 # Replace 'Home.py' with the actual filename of your new main script.
 script_file = "Home.py"
-
-

@@ -6,7 +6,7 @@ import plotly.express as px
 import numpy as np
 
 st.set_page_config(
-    page_title='EU Export Analysis to Russia, Kyrgyzstan, and Armenia',
+    page_title='EU Export Analysis to Russia, Kyrgyzstan, Uzbekistan, Kazakhstan, and Armenia',
     page_icon=':bar_chart:',
     layout='wide'
 )
