@@ -183,6 +183,7 @@ def main():
         yearly_eu_27_data = eu_27_data.groupby(
             'Year')['Eurostat Value (USD)'].sum().reset_index()
         yearly_eu_27_data['Year'] = yearly_eu_27_data['Year'].astype(str)
+        st.dataframe(yearly_eu_27_data)
 
         # Merge with Kyrgyzstan state data for comparison
         kyrgyz_total = kyrgyzstan_state_stats[kyrgyzstan_state_stats['Category'] == 'The EU'][[

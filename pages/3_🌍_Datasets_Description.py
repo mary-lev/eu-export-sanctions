@@ -385,4 +385,3 @@ with tab5:
     ''')
 
 st.write("---")
-st.write("For more information, navigate through the sidebar or contact the project team.")
