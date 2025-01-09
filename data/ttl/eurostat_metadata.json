@@ -1,37 +1,20 @@
 [
   {
-    "@id": "http://www.wikidata.org/entity/Q458",
+    "@id": "https://sanctions.streamlit.app/ns#time_period/2019-01_to_2024-12",
     "@type": [
-      "http://xmlns.com/foaf/0.1/Agent",
-      "http://purl.org/dc/terms/Location"
+      "http://purl.org/dc/terms/PeriodOfTime"
     ],
-    "http://xmlns.com/foaf/0.1/name": [
+    "http://schema.org/endDate": [
       {
-        "@type": "http://www.w3.org/2001/XMLSchema#string",
-        "@value": "European Union"
-      }
-    ]
-  },
-  {
-    "@id": "https://sanctions.streamlit.app/data/ttl/eurostat_data.ttl",
-    "@type": [
-      "http://www.w3.org/ns/dcat#Distribution"
-    ],
-    "http://purl.org/dc/terms/format": [
-      {
-        "@id": "http://purl.org/NET/mediatypes/text/turtle"
+        "@type": "http://www.w3.org/2001/XMLSchema#gYearMonth",
+        "@value": "2024-12"
       }
     ],
-    "http://www.w3.org/ns/dcat#accessURL": [
+    "http://schema.org/startDate": [
       {
-        "@id": "https://sanctions.streamlit.app/data/ttl/eurostat_data.ttl"
+        "@type": "http://www.w3.org/2001/XMLSchema#gYearMonth",
+        "@value": "2019-01"
       }
-    ]
-  },
-  {
-    "@id": "http://purl.org/NET/mediatypes/text/turtle",
-    "@type": [
-      "http://purl.org/dc/terms/MediaTypeOrExtent"
     ]
   },
   {
@@ -84,20 +67,15 @@
     ]
   },
   {
-    "@id": "https://sanctions.streamlit.app/ns#time_period/2019-01_to_2024-12",
+    "@id": "http://www.wikidata.org/entity/Q458",
     "@type": [
-      "http://purl.org/dc/terms/PeriodOfTime"
+      "http://xmlns.com/foaf/0.1/Agent",
+      "http://purl.org/dc/terms/Location"
     ],
-    "http://schema.org/endDate": [
+    "http://xmlns.com/foaf/0.1/name": [
       {
-        "@type": "http://www.w3.org/2001/XMLSchema#gYearMonth",
-        "@value": "2024-12"
-      }
-    ],
-    "http://schema.org/startDate": [
-      {
-        "@type": "http://www.w3.org/2001/XMLSchema#gYearMonth",
-        "@value": "2019-01"
+        "@type": "http://www.w3.org/2001/XMLSchema#string",
+        "@value": "European Union"
       }
     ]
   },
@@ -126,6 +104,28 @@
     "http://www.w3.org/ns/dcat#dataset": [
       {
         "@id": "https://sanctions.streamlit.app/ns#dataset/eurostat_exports"
+      }
+    ]
+  },
+  {
+    "@id": "http://purl.org/NET/mediatypes/text/turtle",
+    "@type": [
+      "http://purl.org/dc/terms/MediaTypeOrExtent"
+    ]
+  },
+  {
+    "@id": "https://sanctions.streamlit.app/data/ttl/eurostat_data.ttl",
+    "@type": [
+      "http://www.w3.org/ns/dcat#Distribution"
+    ],
+    "http://purl.org/dc/terms/format": [
+      {
+        "@id": "http://purl.org/NET/mediatypes/text/turtle"
+      }
+    ],
+    "http://www.w3.org/ns/dcat#accessURL": [
+      {
+        "@id": "https://sanctions.streamlit.app/data/ttl/eurostat_data.ttl"
       }
     ]
   }

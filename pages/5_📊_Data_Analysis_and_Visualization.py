@@ -154,14 +154,14 @@ def display_country_comparison(tab, eurostat_data, national_data, country_name):
         labels={'Discrepancy_Percentage': 'Discrepancy %', 'Year': 'Year'}
     )
     
-    # Add war start marker
-    fig.add_vline(
-        x=2022,
-        line_dash="dash",
-        line_color="red",
-        annotation_text="War Start (2022)",
-        annotation_position="top"
-    )
+    # # Add war start marker
+    # fig.add_vline(
+    #     x=2022,
+    #     line_dash="dash",
+    #     line_color="red",
+    #     annotation_text="War Start (2022)",
+    #     annotation_position="top"
+    # )
     
     st.plotly_chart(fig)
     

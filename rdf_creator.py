@@ -41,6 +41,8 @@ folders = {
     "Kazakhstan": 'data/kazahstan_export_eurostat'
 }
 
+folders["National"] = 'data/national_data_converter'
+
 combined_dfs = []
 
 def preprocess_period(df):
