@@ -385,3 +385,4 @@ with tab5:
     ''')
 
 st.write("---")
+st.write("To explore the data analysis, go to the [📈 Data Analysis and Visalization](/Data_Analysis_and_Visualization) page.")
